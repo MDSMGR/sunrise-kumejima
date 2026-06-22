@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="送信完了" description="お問い合わせありがとうございます。">
+  <section class="grid min-h-[70svh] place-items-center pt-24">
+    <div class="wrap max-w-xl text-center">
+      <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-gradient-to-tr from-dawn to-gold">
+        <svg viewBox="0 0 24 24" class="h-8 w-8 text-white" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h1 class="mt-6 font-display text-3xl font-extrabold text-abyss">送信が完了しました</h1>
+      <p class="mt-4 text-[15px] leading-loose text-abyss/70">
+        お問い合わせいただきありがとうございます。内容を確認のうえ、折り返しご連絡いたします。
+        お急ぎの場合は LINE からもお気軽にどうぞ。
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/" class="btn-ghost">ホームへ戻る</a>
+        <a href={site.line} target="_blank" rel="noopener" class="btn-line">LINEを開く</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+
+const sections = [
+  {
+    h: '1. 取得する情報',
+    p: '当ショップは、お問い合わせ・ご予約の対応にあたり、お名前、メールアドレス、電話番号、ご希望日程・人数など、お客様がフォームやLINE等を通じてご提供いただく情報を取得します。',
+  },
+  {
+    h: '2. 利用目的',
+    p: 'お預かりした情報は、お問い合わせへの回答、ご予約の確認・調整、ツアー実施に必要な連絡、および当ショップからの各種ご案内のために利用します。利用目的の範囲を超えて利用することはありません。',
+  },
+  {
+    h: '3. 第三者提供',
+    p: '法令に基づく場合を除き、お客様の同意なく個人情報を第三者に提供することはありません。',
+  },
+  {
+    h: '4. 安全管理',
+    p: '取得した個人情報の漏えい、滅失またはき損を防止するため、適切な安全管理措置を講じます。',
+  },
+  {
+    h: '5. 開示・訂正・削除',
+    p: 'お客様ご本人からの個人情報の開示・訂正・削除等のご請求に対しては、ご本人であることを確認のうえ、速やかに対応します。',
+  },
+  {
+    h: '6. お問い合わせ窓口',
+    p: `本ポリシーに関するお問い合わせは、${site.email} までご連絡ください。`,
+  },
+];
+---
+
+<Base title="プライバシーポリシー">
+  <section class="bg-abyss pb-14 pt-32 text-sand">
+    <div class="wrap">
+      <h1 class="font-display text-3xl font-extrabold sm:text-4xl">プライバシーポリシー</h1>
+    </div>
+  </section>
+  <section class="py-16">
+    <div class="wrap max-w-3xl space-y-8">
+      <p class="text-[15px] leading-loose text-abyss/75">
+        {site.name}（以下「当ショップ」）は、お客様の個人情報の重要性を認識し、以下の方針に基づき適切に取り扱います。
+      </p>
+      {sections.map((s) => (
+        <div>
+          <h2 class="font-display text-lg font-extrabold text-abyss">{s.h}</h2>
+          <p class="mt-2 text-[15px] leading-loose text-abyss/75">{s.p}</p>
+        </div>
+      ))}
+      <p class="text-xs text-abyss/50">
+        ※ 本ポリシーは雛形です。実際の運用内容・事業者情報に合わせて加筆修正のうえ公開してください。
+      </p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+
+const rows = [
+  ['販売事業者名', '（事業者名を記載）'],
+  ['運営責任者', '（責任者名を記載）'],
+  ['所在地', site.address],
+  ['電話番号', site.tel],
+  ['メールアドレス', site.email],
+  ['販売価格', '各コース紹介ページ、またはお見積り時にご案内する金額のとおり'],
+  ['商品代金以外の必要料金', 'オプション料金、現地までの交通費等（必要に応じてご案内します）'],
+  ['お支払い方法', '（現地払い／事前振込／キャッシュレス決済 等を記載）'],
+  ['お支払い時期', '（予約確定時／当日 等を記載）'],
+  ['役務の提供時期', 'ご予約いただいた日時に体験ツアーを実施します'],
+  ['キャンセル・返金について', '（キャンセルポリシー・返金条件を記載。天候中止時の取扱いも明記）'],
+];
+---
+
+<Base title="特定商取引法に基づく表記">
+  <section class="bg-abyss pb-14 pt-32 text-sand">
+    <div class="wrap">
+      <h1 class="font-display text-3xl font-extrabold sm:text-4xl">特定商取引法に基づく表記</h1>
+    </div>
+  </section>
+  <section class="py-16">
+    <div class="wrap max-w-3xl">
+      <div class="overflow-hidden rounded-3xl bg-white shadow-card">
+        <dl class="divide-y divide-abyss/10">
+          {rows.map(([k, v]) => (
+            <div class="grid gap-1 p-5 sm:grid-cols-[200px_1fr] sm:gap-6 sm:p-6">
+              <dt class="text-sm font-bold text-abyss">{k}</dt>
+              <dd class="text-sm leading-relaxed text-abyss/75">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <p class="mt-6 text-xs leading-relaxed text-abyss/50">
+        ※ （　）内は、実際の事業者情報・販売条件に合わせて記載してください。本ページは雛形です。
+      </p>
+    </div>
+  </section>
+</Base>

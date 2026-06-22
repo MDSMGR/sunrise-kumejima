@@ -1,0 +1,35 @@
+---
+import type { Course } from '../data/courses';
+interface Props {
+  course: Course;
+}
+const { course } = Astro.props;
+
+const toneStyles: Record<Course['duotone'], string> = {
+  dawn: 'radial-gradient(120% 120% at 80% -10%, rgba(255,194,75,0.7), transparent 55%), linear-gradient(135deg, #ff7a45, #c2410c)',
+  gold: 'radial-gradient(120% 120% at 80% -10%, rgba(255,255,255,0.5), transparent 50%), linear-gradient(135deg, #ffc24b, #f59e0b)',
+  lagoon: 'radial-gradient(120% 120% at 80% -10%, rgba(255,194,75,0.5), transparent 55%), linear-gradient(135deg, #0e7c86, #06303a)',
+  shallow: 'radial-gradient(120% 120% at 80% -10%, rgba(255,255,255,0.45), transparent 55%), linear-gradient(135deg, #5fc9c4, #0e7c86)',
+  deep: 'radial-gradient(120% 120% at 80% 0%, rgba(95,201,196,0.45), transparent 55%), linear-gradient(135deg, #0e7c86, #041f26)',
+};
+---
+
+<article class="group flex flex-col overflow-hidden rounded-3xl bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+  <div class="media h-48" style={`background-image: ${toneStyles[course.duotone]}`}>
+    <span class="absolute left-4 top-4 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white backdrop-blur">
+      {course.tag}
+    </span>
+    <p class="absolute bottom-4 left-4 right-4 font-display text-lg font-bold text-white drop-shadow">
+      {course.tagline}
+    </p>
+  </div>
+  <div class="flex flex-1 flex-col p-6">
+    <h3 class="font-display text-xl font-extrabold text-abyss">{course.name}</h3>
+    <p class="mt-2 flex-1 text-sm leading-relaxed text-abyss/70">{course.summary}</p>
+    <div class="mt-4 flex flex-wrap gap-2">
+      {course.highlights.map((h) => (
+        <span class="rounded-full bg-sand px-3 py-1 text-xs font-semibold text-lagoon">{h}</span>
+      ))}
+    </div>
+  </div>
+</article>

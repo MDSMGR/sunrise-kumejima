@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import { spots } from '../data/site';
+
+const sup = spots.filter((s) => s.kind === 'SUP');
+const snorkel = spots.filter((s) => s.kind === 'シュノーケル');
+---
+
+<Base title="スポット紹介" description="久米島のSUP・シュノーケルスポットをSUNRISEがご紹介。はての浜、イーフビーチ、畳石エリアなど、久米島の海の魅力スポット。">
+  <section class="relative overflow-hidden pb-16 pt-32 text-sand"
+           style="background: linear-gradient(135deg, #0e7c86, #06303a);">
+    <div class="wrap">
+      <p class="eyebrow !text-gold">SPOTS</p>
+      <h1 class="mt-3 font-display text-4xl font-extrabold sm:text-5xl">スポット紹介</h1>
+      <p class="mt-4 max-w-xl text-sand/75">
+        久米島には、思わず息をのむ海がいくつもあります。SUP・シュノーケルそれぞれの
+        おすすめスポットをご紹介します。
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="wrap space-y-16">
+      <div data-reveal>
+        <p class="eyebrow"><span class="h-px w-6 bg-dawn"></span>SUP SPOTS</p>
+        <h2 class="mt-3 font-display text-2xl font-extrabold text-abyss sm:text-3xl">SUPで漕ぎ出す海</h2>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          {sup.map((s) => (
+            <div class="rounded-3xl bg-white p-7 shadow-card">
+              <h3 class="font-display text-xl font-extrabold text-lagoon">{s.name}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-abyss/70">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div data-reveal>
+        <p class="eyebrow"><span class="h-px w-6 bg-dawn"></span>SNORKEL SPOTS</p>
+        <h2 class="mt-3 font-display text-2xl font-extrabold text-abyss sm:text-3xl">水の中で出会う海</h2>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          {snorkel.map((s) => (
+            <div class="rounded-3xl bg-white p-7 shadow-card">
+              <h3 class="font-display text-xl font-extrabold text-lagoon">{s.name}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-abyss/70">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p class="text-xs text-abyss/50">
+        ※ 当日のコンディションにより、ご案内するスポットは変わる場合があります。安全とベストな景色を優先してガイドが判断します。
+      </p>
+    </div>
+  </section>
+</Base>

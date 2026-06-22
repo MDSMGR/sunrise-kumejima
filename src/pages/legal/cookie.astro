@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+
+const sections = [
+  {
+    h: '1. Cookieとは',
+    p: 'Cookie（クッキー）とは、ウェブサイトを閲覧した際に、ブラウザを通じてお客様の端末に保存される小さなテキストファイルです。サイトの利便性向上やアクセス状況の把握のために利用されます。',
+  },
+  {
+    h: '2. 当サイトでのCookieの利用',
+    p: '当サイトでは、サイトの利用状況の分析や表示の最適化のためにCookieを利用する場合があります。これにより個人を直接特定することはありません。',
+  },
+  {
+    h: '3. Cookieの無効化',
+    p: 'お客様はブラウザの設定により、Cookieの受け取りを拒否したり、保存されたCookieを削除したりできます。ただし、その場合、当サイトの一部機能が正しく動作しないことがあります。',
+  },
+  {
+    h: '4. お問い合わせ',
+    p: `本ポリシーに関するお問い合わせは、${site.email} までご連絡ください。`,
+  },
+];
+---
+
+<Base title="Cookieポリシー">
+  <section class="bg-abyss pb-14 pt-32 text-sand">
+    <div class="wrap">
+      <h1 class="font-display text-3xl font-extrabold sm:text-4xl">Cookie（クッキー）ポリシー</h1>
+    </div>
+  </section>
+  <section class="py-16">
+    <div class="wrap max-w-3xl space-y-8">
+      {sections.map((s) => (
+        <div>
+          <h2 class="font-display text-lg font-extrabold text-abyss">{s.h}</h2>
+          <p class="mt-2 text-[15px] leading-loose text-abyss/75">{s.p}</p>
+        </div>
+      ))}
+      <p class="text-xs text-abyss/50">
+        ※ 本ポリシーは雛形です。アクセス解析ツール等を導入する際は、その内容に合わせて加筆してください。
+      </p>
+    </div>
+  </section>
+</Base>

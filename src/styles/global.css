@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  @apply bg-sand text-abyss font-sans antialiased;
+}
+
+::selection {
+  background: theme('colors.dawn');
+  color: #fff;
+}
+
+/* リンクのフォーカスを常に見える状態に */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid theme('colors.dawn');
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-content px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-lagoon font-display;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold transition-all duration-200 will-change-transform;
+  }
+  .btn-primary {
+    @apply btn bg-dawn text-white shadow-card hover:-translate-y-0.5 hover:shadow-lift;
+  }
+  .btn-ghost {
+    @apply btn border border-abyss/15 bg-white/70 text-abyss backdrop-blur hover:border-abyss/30 hover:bg-white;
+  }
+  .btn-line {
+    @apply btn bg-[#06C755] text-white shadow-card hover:-translate-y-0.5 hover:shadow-lift;
+  }
+
+  /* ブランドのデュオトーン画像枠（実写差し替え前のプレースホルダ兼デザイン要素） */
+  .media {
+    @apply relative overflow-hidden rounded-3xl bg-lagoon;
+    background-image:
+      radial-gradient(120% 120% at 80% -10%, rgba(255, 194, 75, 0.55), transparent 55%),
+      radial-gradient(120% 120% at 0% 110%, rgba(6, 48, 58, 0.65), transparent 60%),
+      linear-gradient(135deg, #0e7c86, #06303a);
+  }
+  .media::after {
+    content: '';
+    @apply pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-50;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='28' viewBox='0 0 120 28'%3E%3Cpath d='M0 14c15 0 15 8 30 8s15-8 30-8 15 8 30 8 15-8 30-8' fill='none' stroke='%23ffffff' stroke-opacity='0.18' stroke-width='2'/%3E%3C/svg%3E");
+    background-size: 120px 28px;
+  }
+}

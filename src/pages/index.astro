@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CourseCard from '../components/CourseCard.astro';
+import { courses, options } from '../data/courses';
+import { site } from '../data/site';
+---
+
+<Base>
+  <!-- HERO -->
+  <section class="relative flex min-h-[100svh] items-end overflow-hidden">
+    <!-- sunrise sky -->
+    <div class="absolute inset-0 -z-10" aria-hidden="true">
+      <div class="absolute inset-0" style="background: linear-gradient(180deg, #ffd98a 0%, #ff9d5c 28%, #ff7a45 46%, #0e7c86 72%, #06303a 100%);"></div>
+      <!-- sun -->
+      <div class="absolute left-1/2 top-[34%] h-44 w-44 -translate-x-1/2 rounded-full bg-[#fff4d6] blur-[2px] animate-floaty"
+           style="box-shadow: 0 0 120px 50px rgba(255,231,168,0.85);"></div>
+      <!-- horizon water shimmer -->
+      <div class="absolute inset-x-0 bottom-0 h-[28%]" style="background: linear-gradient(180deg, rgba(6,48,58,0) 0%, #06303a 90%);"></div>
+      <svg class="absolute inset-x-0 bottom-0 w-full text-[#06303a]" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="currentColor" fill-opacity="0.85" d="M0 60 Q 180 20 360 60 T 720 60 T 1080 60 T 1440 60 V120 H0 Z"></path>
+      </svg>
+    </div>
+
+    <div class="wrap pb-24 pt-32 sm:pb-32">
+      <p class="eyebrow !text-white/85 animate-rise">沖縄・久米島 / MARINE EXPERIENCE</p>
+      <h1 class="mt-4 max-w-3xl font-display text-5xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-sm sm:text-7xl animate-rise" style="animation-delay:.08s">
+        人生で最高の<br />冒険へ飛び込もう
+      </h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg animate-rise" style="animation-delay:.16s">
+        ただのレジャーじゃない、心に残る体験を。SUNRISE は、久米島の海を舞台に
+        SUP・シュノーケル・はての浜ツアーをお届けする体験ショップです。
+      </p>
+      <div class="mt-9 flex flex-wrap gap-3 animate-rise" style="animation-delay:.24s">
+        <a href={site.line} target="_blank" rel="noopener" class="btn-line">LINEで予約・相談</a>
+        <a href="/courses" class="btn-ghost !bg-white/15 !text-white !border-white/30 hover:!bg-white/25">コースを見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="relative py-24">
+    <div class="wrap grid items-center gap-12 lg:grid-cols-2">
+      <div data-reveal class="animate-rise">
+        <SectionHeading eyebrow="ABOUT SUNRISE" title="自然と一体になる、ここだけの感動を" />
+        <div class="mt-6 space-y-4 text-[15px] leading-loose text-abyss/75">
+          <p>
+            透明度抜群のエメラルドブルー、どこまでも続く水平線、静けさすら特別な時間に変える朝焼けと夕陽。
+            SUPやシュノーケルを通じて、自然と一体になる喜びをご案内します。
+          </p>
+          <p>
+            人気のSUP体験に加え、船で訪れる久米島屈指の絶景スポット「はての浜」へのツアーもご用意。
+            真っ白な砂浜と360度の海に囲まれた非日常の世界が、あなたを待っています。
+          </p>
+        </div>
+        <dl class="mt-8 grid grid-cols-3 gap-4">
+          <div class="rounded-2xl bg-white p-4 shadow-card">
+            <dt class="text-xs font-semibold text-lagoon">体験プラン</dt>
+            <dd class="mt-1 font-display text-2xl font-extrabold text-abyss">6<span class="ml-1 text-sm font-bold text-abyss/50">コース</span></dd>
+          </div>
+          <div class="rounded-2xl bg-white p-4 shadow-card">
+            <dt class="text-xs font-semibold text-lagoon">初心者</dt>
+            <dd class="mt-1 font-display text-2xl font-extrabold text-abyss">歓迎</dd>
+          </div>
+          <div class="rounded-2xl bg-white p-4 shadow-card">
+            <dt class="text-xs font-semibold text-lagoon">ガイド</dt>
+            <dd class="mt-1 font-display text-2xl font-extrabold text-abyss">同行</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div data-reveal class="animate-rise" style="animation-delay:.1s">
+        <div class="media aspect-[4/5] w-full">
+          <div class="absolute inset-0 grid place-items-center">
+            <div class="text-center text-white/90">
+              <p class="font-display text-sm uppercase tracking-[0.3em]">Kumejima</p>
+              <p class="mt-2 font-display text-3xl font-extrabold">Emerald Sea</p>
+              <p class="mt-3 text-xs text-white/60">※ メイン写真を差し替え予定</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section id="courses" class="py-12">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading eyebrow="COURSES" title="SUNRISE のコース" />
+        <a href="/courses" class="text-sm font-bold text-dawn hover:underline">すべて見る →</a>
+      </div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {courses.map((course) => <CourseCard course={course} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- OPTIONS -->
+  <section class="py-24">
+    <div class="wrap">
+      <SectionHeading eyebrow="OPTIONS" title="思い出を、もっと鮮やかに残す" align="center" />
+      <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-relaxed text-abyss/70">
+        ツアーをさらに特別な思い出に。体験をもっと鮮やかに彩る追加オプションをご用意しています。
+      </p>
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        {options.map((opt, i) => (
+          <div class="relative rounded-3xl border border-abyss/10 bg-white p-7 shadow-card">
+            <span class="font-display text-5xl font-extrabold text-sand">0{i + 1}</span>
+            <h3 class="-mt-6 font-display text-lg font-extrabold text-abyss">{opt.name}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-abyss/70">{opt.body}</p>
+            {opt.note && <p class="mt-3 text-xs text-dawn">{opt.note}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="wrap">
+    <div class="relative overflow-hidden rounded-[2rem] px-8 py-16 text-center sm:px-16"
+         style="background: linear-gradient(135deg, #ff7a45 0%, #ffc24b 100%);">
+      <div class="absolute inset-0 opacity-20" aria-hidden="true"
+           style="background-image: radial-gradient(circle at 20% 20%, #fff 0, transparent 40%), radial-gradient(circle at 80% 70%, #fff 0, transparent 35%);"></div>
+      <div class="relative">
+        <h2 class="font-display text-3xl font-extrabold text-white sm:text-4xl">久米島の海で、待っています</h2>
+        <p class="mx-auto mt-4 max-w-md text-white/90">
+          ご予約・ご相談は LINE またはお問い合わせフォームから。空き状況をすぐにご案内します。
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href={site.line} target="_blank" rel="noopener" class="btn bg-white text-dawn shadow-lift hover:-translate-y-0.5">LINEで予約・相談</a>
+          <a href="/contact" class="btn border border-white/60 text-white hover:bg-white/10">フォームで問い合わせ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
