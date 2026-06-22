@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { sentences } from '../lib/text';
 import SunDivider from '../components/SunDivider.astro';
 import { staff, site } from '../data/site';
 import PageHero from '../components/PageHero.astro';
@@ -28,7 +29,7 @@ const guide = staff[0];
             ))}
           </blockquote>
 
-          <p class="mt-7 text-[15px] leading-loose text-inksoft">{guide.body}</p>
+          <p class="mt-7 text-[15px] leading-loose text-inksoft" set:html={sentences(guide.body)}></p>
 
           <a href={site.line} target="_blank" rel="noopener" class="btn-line mt-8">LINEで相談する</a>
         </div>

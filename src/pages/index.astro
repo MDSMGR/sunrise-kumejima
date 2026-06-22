@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { sentences } from '../lib/text';
 import SectionHeading from '../components/SectionHeading.astro';
 import SunDivider from '../components/SunDivider.astro';
 import CourseCard from '../components/CourseCard.astro';
@@ -14,7 +15,7 @@ const gallery = [
   '/images/hero-sup.jpg',
   '/images/courses/course-trekking.jpg',
   '/images/courses/course-stargazing.jpg',
-  '/images/staff-guide.jpg',
+  '/images/gallery-view.jpg',
 ];
 ---
 <Base>
@@ -105,7 +106,7 @@ const gallery = [
           <div class="rounded-2xl border border-line bg-card p-7">
             <span class="font-fraunces italic text-4xl text-gold">0{i + 1}</span>
             <h3 class="mt-2 font-mincho text-lg text-ink">{opt.name}</h3>
-            <p class="mt-3 text-sm leading-relaxed text-inksoft">{opt.body}</p>
+            <p class="mt-3 text-sm leading-relaxed text-inksoft" set:html={sentences(opt.body)}></p>
             {opt.note && <p class="mt-3 text-xs text-ember">{opt.note}</p>}
           </div>
         ))}

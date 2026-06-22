@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { sentences } from '../lib/text';
 import { faqs, site } from '../data/site';
 import PageHero from '../components/PageHero.astro';
 ---
@@ -8,7 +9,7 @@ import PageHero from '../components/PageHero.astro';
   <PageHero eyebrow="FAQ" title="よくある質問" watermark="問" image="/images/courses/course-snorkel.jpg" alt="久米島のシュノーケルの様子" />
   <section class="pt-16">
     <div class="wrap max-w-3xl">
-      <p class="text-[15px] leading-loose text-inksoft">はじめての方からよくいただくご質問をまとめました。ここにない疑問は、LINEでお気軽に。</p>
+      <p class="text-[15px] leading-loose text-inksoft">はじめての方からよくいただくご質問をまとめました。<br>ここにない疑問は、LINEでお気軽に。</p>
     </div>
   </section>
 
@@ -27,7 +28,7 @@ import PageHero from '../components/PageHero.astro';
               </span>
             </summary>
             <div class="px-6 pb-6 text-[15px] leading-loose text-ink/75">
-              {faq.a}
+              <span set:html={sentences(faq.a)}></span>
             </div>
           </details>
         ))}
