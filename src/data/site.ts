@@ -17,9 +17,42 @@ export const nav = [
   { label: 'コース', href: '/courses' },
   { label: 'スポット紹介', href: '/spots' },
   { label: 'スタッフ紹介', href: '/staff' },
+  { label: 'Cafe & Bar', href: '/cafe' },
   { label: 'FAQ', href: '/faq' },
   { label: 'お問い合わせ', href: '/contact' },
 ];
+
+// 系列店 Cafe & Bar SUNRISE
+export const cafe = {
+  name: 'Cafe & Bar SUNRISE',
+  tagline: '海の余韻を、もう一杯。',
+  hours: '12:00〜24:00',
+  closed: '日曜日',
+  payments: ['現金', 'クレジットカード', 'PayPay'],
+  terrace: true,
+  instagram: 'https://www.instagram.com/cafebar_sunrise_kumejima/',
+  instagramHandle: '@cafebar_sunrise_kumejima',
+  menu: [
+    {
+      name: 'タコライス',
+      price: '¥1,500',
+      body: '沖縄定番のタコライス。スパイスの効いたミート、シャキシャキ野菜、とろけるチーズを一皿に。',
+      image: '/images/cafe-tacorice.jpg',
+    },
+    {
+      name: '紅芋ブリュレ',
+      price: '¥1,300',
+      body: '沖縄産・紅芋のブリュレ。香ばしく焦がした表面と、ねっとり甘い紅芋の余韻。締めの一品に。',
+      image: '/images/cafe-beniimo.jpg',
+    },
+    {
+      name: '車海老の塩焼き',
+      price: '¥1,200',
+      body: 'ぷりっと甘い車海老をシンプルに塩焼きで。素材の旨みを、レモンをきゅっと搾って。',
+      image: '/images/cafe-ebi.jpg',
+    },
+  ],
+};
 
 export type Faq = { q: string; a: string };
 
@@ -81,8 +114,10 @@ export const spots: Spot[] = [
 
 export const staff = [
   {
-    name: 'SUNRISE ガイドチーム',
-    role: 'マリンガイド',
-    body: '久米島の海を知り尽くしたガイドが、安全第一であなたの体験をご案内します。SUP・シュノーケルはもちろん、撮影や思い出づくりまで、その日のベストを一緒に探します。',
+    name: '越智 康平',
+    role: '代表ガイド',
+    comment: '久米島の魅力を知り尽くしたガイドがご案内します！\n何でもお気軽にお話しください！',
+    body: 'SUP・シュノーケルから、はての浜ツアー、フィッシング、トレッキング、星空まで。久米島の海と自然を誰よりも知り尽くした代表ガイドが、安全第一であなたの一日をご案内します。初めての方も、お子さま連れのご家族も、その日のベストな体験を一緒に見つけましょう。',
+    image: '/images/staff-guide.jpg',
   },
 ];

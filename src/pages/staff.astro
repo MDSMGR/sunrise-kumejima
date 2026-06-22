@@ -1,37 +1,56 @@
 ---
 import Base from '../layouts/Base.astro';
+import SunDivider from '../components/SunDivider.astro';
 import { staff, site } from '../data/site';
+import PageHero from '../components/PageHero.astro';
+const guide = staff[0];
 ---
+<Base title="スタッフ紹介" description="SUNRISE 久米島の代表ガイド 越智康平。久米島の海と自然を知り尽くしたガイドが、安全第一であなたの体験をご案内します。">
+  <PageHero eyebrow="Staff" title="スタッフ紹介" watermark="人" image="/images/hero-sup.jpg" alt="久米島の夕陽の海" />
 
-<Base title="スタッフ紹介" description="SUNRISE 久米島のガイド紹介。久米島の海を知り尽くしたガイドが、安全第一であなたの体験をご案内します。">
-  <section class="bg-abyss pb-16 pt-32 text-sand">
+  <section class="py-20">
     <div class="wrap">
-      <p class="eyebrow !text-gold">STAFF</p>
-      <h1 class="mt-3 font-display text-4xl font-extrabold sm:text-5xl">スタッフ紹介</h1>
-      <p class="mt-4 max-w-xl text-sand/75">
-        あなたの久米島時間を、隣で一緒に楽しむ仲間たち。
-      </p>
+      <article class="grid items-center gap-10 lg:grid-cols-[420px_1fr] lg:gap-14">
+        <div class="relative">
+          <div class="overflow-hidden rounded-3xl border border-line shadow-soft">
+            <img src={guide.image} alt={`${guide.role} ${guide.name}`} class="aspect-[4/5] w-full object-cover" loading="lazy" />
+          </div>
+          <span class="absolute -bottom-4 left-6 rounded-full bg-sun px-5 py-2 font-fraunces italic text-white text-sm shadow-soft">{guide.role}</span>
+        </div>
+
+        <div>
+          <p class="eyebrow">Representative guide</p>
+          <h2 class="mt-2 font-mincho text-4xl tracking-wide2 text-ink">{guide.name}</h2>
+
+          <blockquote class="mt-7 border-l-2 border-sun pl-5">
+            {guide.comment.split('\n').map((line) => (
+              <p class="font-mincho text-lg leading-relaxed tracking-wide2 text-ink">{line}</p>
+            ))}
+          </blockquote>
+
+          <p class="mt-7 text-[15px] leading-loose text-inksoft">{guide.body}</p>
+
+          <a href={site.line} target="_blank" rel="noopener" class="btn-line mt-8">LINEで相談する</a>
+        </div>
+      </article>
     </div>
   </section>
 
-  <section class="py-20">
-    <div class="wrap grid gap-10">
-      {staff.map((member) => (
-        <article class="grid items-center gap-8 rounded-3xl bg-white p-6 shadow-card md:grid-cols-[260px_1fr] md:p-8" data-reveal>
-          <div class="media aspect-square w-full">
-            <div class="absolute inset-0 grid place-items-center text-white/80">
-              <span class="text-xs uppercase tracking-[0.3em]">Photo</span>
-            </div>
-          </div>
-          <div>
-            <p class="eyebrow">{member.role}</p>
-            <h2 class="mt-2 font-display text-2xl font-extrabold text-abyss">{member.name}</h2>
-            <p class="mt-4 text-[15px] leading-loose text-abyss/75">{member.body}</p>
-            <a href={site.line} target="_blank" rel="noopener" class="btn-line mt-6">LINEで相談する</a>
-          </div>
-        </article>
-      ))}
-      <p class="text-xs text-abyss/50">※ スタッフ写真・プロフィールは差し替え予定です。実際の顔写真や経歴を入れると、より信頼感が高まります。</p>
+  <div class="wrap"><SunDivider /></div>
+
+  <section class="py-16">
+    <div class="wrap text-center">
+      <p class="eyebrow">One day in Kumejima</p>
+      <h2 class="mx-auto mt-3 max-w-2xl font-mincho text-2xl leading-relaxed tracking-wide2 text-ink sm:text-3xl">
+        海あそびのあとは、<br>系列店 Cafe &amp; Bar SUNRISE へ。
+      </h2>
+      <p class="mx-auto mt-5 max-w-xl text-[15px] leading-loose text-inksoft">
+        昼はマリン体験、夜は島の食卓を。<br>越智がご案内する久米島を、まるごと楽しんでください。
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/courses" class="btn-primary">コースを見る</a>
+        <a href="/cafe" class="btn-ghost">Cafe &amp; Bar を見る</a>
+      </div>
     </div>
   </section>
 </Base>

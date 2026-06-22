@@ -1,62 +1,44 @@
 ---
 import { site, nav } from '../data/site';
 ---
-
-<footer class="relative mt-24 overflow-hidden bg-abyss text-sand">
-  <div
-    class="pointer-events-none absolute inset-x-0 top-0 h-px"
-    style="background: linear-gradient(90deg, transparent, rgba(255,194,75,0.6), transparent);"
-  ></div>
+<footer class="relative mt-24 overflow-hidden bg-ink text-paper">
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-px"
+       style="background:linear-gradient(90deg,transparent,rgba(243,184,58,0.6),transparent)"></div>
 
   <div class="wrap grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
     <div>
-      <p class="font-display text-2xl font-extrabold">
-        SUNRISE <span class="text-gold">久米島</span>
-      </p>
-      <p class="mt-4 max-w-sm text-sm leading-relaxed text-sand/70">
-        沖縄・久米島の海を舞台に、心揺さぶるマリンアクティビティを。
-        ただのレジャーじゃない、心に残る体験をお届けします。
+      <p class="font-mincho text-2xl tracking-wide2">SUNRISE <span class="text-gold">久米島</span></p>
+      <p class="mt-4 max-w-sm text-sm leading-loose text-paper/70">
+        沖縄・久米島の海を舞台に、<br>心に残るマリン体験を。<br>系列店 Cafe &amp; Bar SUNRISE もどうぞ。
       </p>
       <div class="mt-6 flex gap-3">
-        <a href={site.line} target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-colors hover:bg-[#06C755]" aria-label="LINE">
-          <span class="text-xs font-bold">LINE</span>
-        </a>
-        <a href={site.instagram} target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-colors hover:bg-dawn" aria-label="Instagram">
-          <span class="text-xs font-bold">IG</span>
-        </a>
-        <a href={site.tiktok} target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-colors hover:bg-shallow" aria-label="TikTok">
-          <span class="text-xs font-bold">TT</span>
-        </a>
+        <a href={site.line} target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-colors hover:bg-[#06C755]" aria-label="LINE"><span class="font-fraunces italic text-xs">LINE</span></a>
+        <a href={site.instagram} target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-colors hover:bg-sun" aria-label="Instagram"><span class="font-fraunces italic text-xs">IG</span></a>
+        <a href={site.tiktok} target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-colors hover:bg-gold" aria-label="TikTok"><span class="font-fraunces italic text-xs">TT</span></a>
       </div>
     </div>
 
     <nav aria-label="フッターメニュー">
-      <p class="eyebrow !text-gold/80">MENU</p>
+      <p class="font-fraunces italic text-gold/80 text-sm">Menu</p>
       <ul class="mt-4 space-y-2.5 text-sm">
         {nav.map((item) => (
-          <li>
-            <a href={item.href} class="text-sand/75 transition-colors hover:text-gold">{item.label}</a>
-          </li>
+          <li><a href={item.href} class="text-paper/75 transition-colors hover:text-gold">{item.label}</a></li>
         ))}
       </ul>
     </nav>
 
     <div>
-      <p class="eyebrow !text-gold/80">CONTACT</p>
-      <ul class="mt-4 space-y-3 text-sm text-sand/75">
+      <p class="font-fraunces italic text-gold/80 text-sm">Contact</p>
+      <ul class="mt-4 space-y-3 text-sm text-paper/75">
         <li>{site.address}</li>
-        <li>
-          <a href={`tel:${site.tel}`} class="transition-colors hover:text-gold">TEL {site.tel}</a>
-        </li>
-        <li>
-          <a href={`mailto:${site.email}`} class="break-all transition-colors hover:text-gold">{site.email}</a>
-        </li>
+        <li><a href={`tel:${site.tel}`} class="transition-colors hover:text-gold">TEL {site.tel}</a></li>
+        <li><a href={`mailto:${site.email}`} class="break-all transition-colors hover:text-gold">{site.email}</a></li>
       </ul>
     </div>
   </div>
 
   <div class="border-t border-white/10">
-    <div class="wrap flex flex-col items-center justify-between gap-4 py-6 text-xs text-sand/55 sm:flex-row">
+    <div class="wrap flex flex-col items-center justify-between gap-4 py-6 text-xs text-paper/55 sm:flex-row">
       <p>© {new Date().getFullYear()} SUNRISE 久米島. All rights reserved.</p>
       <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
         <a href="/legal/tokushoho" class="transition-colors hover:text-gold">特定商取引法に基づく表記</a>

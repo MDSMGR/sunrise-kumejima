@@ -1,98 +1,63 @@
 ---
 import { nav, site } from '../data/site';
 const path = Astro.url.pathname;
-const isActive = (href: string) =>
-  href === '/' ? path === '/' : path.startsWith(href);
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
-
-<header
-  id="site-header"
-  class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
-  data-state="top"
->
-  <div class="wrap flex items-center justify-between py-4">
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-all duration-300" data-state="top">
+  <div class="wrap flex items-center justify-between py-3.5">
     <a href="/" class="group flex items-center gap-2.5" aria-label={`${site.name} ホーム`}>
-      <span class="relative grid h-9 w-9 place-items-center">
-        <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-dawn to-gold animate-shimmer"></span>
-        <svg viewBox="0 0 24 24" class="relative h-5 w-5 text-white" aria-hidden="true">
-          <circle cx="12" cy="13" r="5" fill="currentColor" />
-          <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-            <line x1="12" y1="2" x2="12" y2="5" />
-            <line x1="3" y1="13" x2="6" y2="13" />
-            <line x1="18" y1="13" x2="21" y2="13" />
-            <line x1="5.5" y1="6.5" x2="7.5" y2="8.5" />
-            <line x1="18.5" y1="6.5" x2="16.5" y2="8.5" />
+      <span class="relative grid h-9 w-9 place-items-center" aria-hidden="true">
+        <svg viewBox="0 0 40 40" class="h-9 w-9">
+          <g fill="none" stroke="#E8821C" stroke-width="2" stroke-linecap="round">
+            <line x1="20" y1="4" x2="20" y2="11"/>
+            <line x1="29" y1="7" x2="26" y2="13"/><line x1="11" y1="7" x2="14" y2="13"/>
+            <line x1="34" y1="16" x2="28" y2="19"/><line x1="6" y1="16" x2="12" y2="19"/>
           </g>
+          <path d="M9 26a11 11 0 0 1 22 0Z" fill="#E8821C"/>
         </svg>
       </span>
-      <span class="font-display text-lg font-extrabold tracking-tight text-abyss group-hover:text-lagoon transition-colors">
-        SUNRISE <span class="text-dawn">久米島</span>
+      <span class="font-mincho text-[17px] tracking-wide2 text-ink">
+        SUNRISE <span class="text-sun">久米島</span>
       </span>
     </a>
 
-    <nav class="hidden items-center gap-7 lg:flex" aria-label="メインメニュー">
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="メインメニュー">
       {nav.map((item) => (
-        <a
-          href={item.href}
-          class:list={[
-            'text-sm font-semibold transition-colors hover:text-dawn',
-            isActive(item.href) ? 'text-dawn' : 'text-abyss/80',
-          ]}
-          aria-current={isActive(item.href) ? 'page' : undefined}
-        >
+        <a href={item.href}
+           class:list={['text-[13.5px] font-medium tracking-wide transition-colors hover:text-sun', isActive(item.href) ? 'text-sun' : 'text-ink/80']}
+           aria-current={isActive(item.href) ? 'page' : undefined}>
           {item.label}
         </a>
       ))}
-      <a href={site.line} class="btn-line !px-5 !py-2.5 text-xs" target="_blank" rel="noopener">
-        LINEで予約
-      </a>
+      <a href={site.line} class="btn-line !px-5 !py-2.5 text-xs" target="_blank" rel="noopener">LINEで予約</a>
     </nav>
 
-    <button
-      id="nav-toggle"
-      class="grid h-10 w-10 place-items-center rounded-full border border-abyss/15 bg-white/70 backdrop-blur lg:hidden"
-      aria-label="メニューを開く"
-      aria-expanded="false"
-      aria-controls="mobile-nav"
-    >
-      <span class="block h-0.5 w-5 bg-abyss transition-all" data-bar="1"></span>
-      <span class="mt-1 block h-0.5 w-5 bg-abyss transition-all" data-bar="2"></span>
-      <span class="mt-1 block h-0.5 w-5 bg-abyss transition-all" data-bar="3"></span>
+    <button id="nav-toggle" class="grid h-10 w-10 place-items-center rounded-full border border-line bg-card/70 backdrop-blur lg:hidden"
+            aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="block h-px w-5 bg-ink"></span>
+      <span class="mt-1.5 block h-px w-5 bg-ink"></span>
+      <span class="mt-1.5 block h-px w-5 bg-ink"></span>
     </button>
   </div>
 
-  <div
-    id="mobile-nav"
-    class="hidden border-t border-abyss/10 bg-sand/95 backdrop-blur lg:hidden"
-  >
+  <div id="mobile-nav" class="hidden border-t border-line bg-paper/95 backdrop-blur lg:hidden">
     <nav class="wrap flex flex-col py-3" aria-label="モバイルメニュー">
       {nav.map((item) => (
-        <a
-          href={item.href}
-          class:list={[
-            'border-b border-abyss/5 py-3 text-sm font-semibold',
-            isActive(item.href) ? 'text-dawn' : 'text-abyss/85',
-          ]}
-        >
+        <a href={item.href}
+           class:list={['border-b border-line py-3 text-sm font-medium', isActive(item.href) ? 'text-sun' : 'text-ink/85']}>
           {item.label}
         </a>
       ))}
-      <a href={site.line} class="btn-line mt-4 w-full" target="_blank" rel="noopener">
-        LINEで予約する
-      </a>
+      <a href={site.line} class="btn-line mt-4 w-full" target="_blank" rel="noopener">LINEで予約する</a>
     </nav>
   </div>
 </header>
 
 <script>
   const header = document.getElementById('site-header');
-  const onScroll = () => {
-    if (!header) return;
-    header.dataset.state = window.scrollY > 24 ? 'scrolled' : 'top';
-  };
+  const onScroll = () => { if (header) header.dataset.state = window.scrollY > 24 ? 'scrolled' : 'top'; };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
-
   const toggle = document.getElementById('nav-toggle');
   const menu = document.getElementById('mobile-nav');
   toggle?.addEventListener('click', () => {
@@ -104,8 +69,8 @@ const isActive = (href: string) =>
 
 <style>
   #site-header[data-state='scrolled'] {
-    background: rgba(251, 246, 236, 0.85);
+    background: rgba(247,239,219,0.86);
     backdrop-filter: blur(12px);
-    box-shadow: 0 1px 0 rgba(6, 48, 58, 0.08);
+    box-shadow: 0 1px 0 rgba(47,36,25,0.08);
   }
 </style>

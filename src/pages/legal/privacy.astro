@@ -31,23 +31,23 @@ const sections = [
 ---
 
 <Base title="プライバシーポリシー">
-  <section class="bg-abyss pb-14 pt-32 text-sand">
+  <section class="bg-ink pb-14 pt-32 text-paper">
     <div class="wrap">
-      <h1 class="font-display text-3xl font-extrabold sm:text-4xl">プライバシーポリシー</h1>
+      <h1 class="font-mincho text-3xl font-normal sm:text-4xl">プライバシーポリシー</h1>
     </div>
   </section>
   <section class="py-16">
     <div class="wrap max-w-3xl space-y-8">
-      <p class="text-[15px] leading-loose text-abyss/75">
+      <p class="text-[15px] leading-loose text-ink/75">
         {site.name}（以下「当ショップ」）は、お客様の個人情報の重要性を認識し、以下の方針に基づき適切に取り扱います。
       </p>
       {sections.map((s) => (
         <div>
-          <h2 class="font-display text-lg font-extrabold text-abyss">{s.h}</h2>
-          <p class="mt-2 text-[15px] leading-loose text-abyss/75">{s.p}</p>
+          <h2 class="font-mincho text-lg font-normal text-ink">{s.h}</h2>
+          <p class="mt-2 text-[15px] leading-loose text-ink/75">{s.p}</p>
         </div>
       ))}
-      <p class="text-xs text-abyss/50">
+      <p class="text-xs text-ink/50">
         ※ 本ポリシーは雛形です。実際の運用内容・事業者情報に合わせて加筆修正のうえ公開してください。
       </p>
     </div>

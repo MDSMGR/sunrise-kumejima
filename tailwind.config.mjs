@@ -4,43 +4,35 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 朝焼け × オーシャン のブランドパレット
-        abyss: '#06303a',   // 深い海・テキスト
-        lagoon: '#0e7c86',  // 久米島のエメラルド
-        shallow: '#5fc9c4', // 浅瀬のアクア
-        dawn: '#ff7a45',    // 朝焼けコーラル（主役のアクセント / CTA）
-        gold: '#ffc24b',    // モーニングゴールド
-        sand: '#fbf6ec',    // 砂浜のオフホワイト
+        // A案：ロゴ由来の暖色一本（明朝×クリーム）
+        paper: '#F7EFDB',   // 背景・紙のクリーム
+        cream: '#FBF6E9',   // セクション面
+        card: '#FFFDF7',    // カード
+        ink: '#2F2419',     // 本文の墨
+        inksoft: '#796550', // やわらかい墨
+        sun: '#E8821C',     // サンライズ橙（主役・CTA）
+        gold: '#F3B83A',    // モーニング金（差し色）
+        ember: '#BF5018',   // 夕陽のテラコッタ（締め）
+        line: 'rgba(47,36,25,0.12)',
       },
       fontFamily: {
-        display: ['Outfit', 'Zen Kaku Gothic New', 'sans-serif'],
-        sans: ['"Zen Kaku Gothic New"', 'Outfit', 'sans-serif'],
+        mincho: ['"Noto Serif JP"', 'serif'],
+        fraunces: ['Fraunces', 'serif'],
+        sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
       },
-      maxWidth: {
-        content: '1120px',
-      },
+      maxWidth: { content: '1080px' },
+      letterSpacing: { wide2: '0.1em', wide3: '0.18em' },
       boxShadow: {
-        card: '0 18px 40px -24px rgba(6, 48, 58, 0.45)',
-        lift: '0 28px 60px -28px rgba(6, 48, 58, 0.55)',
+        soft: '0 18px 40px -26px rgba(47,36,25,0.4)',
+        lift: '0 26px 54px -28px rgba(191,80,24,0.5)',
       },
       keyframes: {
-        floaty: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-        shimmer: {
-          '0%, 100%': { opacity: '0.55' },
-          '50%': { opacity: '1' },
-        },
-        rise: {
-          from: { opacity: '0', transform: 'translateY(24px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
+        floaty: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } },
+        rise: { from: { opacity: '0', transform: 'translateY(22px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
       },
       animation: {
-        floaty: 'floaty 6s ease-in-out infinite',
-        shimmer: 'shimmer 5s ease-in-out infinite',
-        rise: 'rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both',
+        floaty: 'floaty 7s ease-in-out infinite',
+        rise: 'rise 0.9s cubic-bezier(0.16,1,0.3,1) both',
       },
     },
   },

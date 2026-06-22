@@ -7,12 +7,14 @@ export type Course = {
   detail: string;
   highlights: string[];
   duotone: 'dawn' | 'lagoon' | 'gold' | 'deep' | 'shallow';
+  image?: string;
 };
 
 // 既存サイト（SUNRISE 久米島）のコース内容をベースに再構成
 export const courses: Course[] = [
   {
     slug: 'sup',
+    image: '/images/courses/course-sup.jpg',
     name: '体験SUP',
     tag: 'SUP',
     tagline: '海の上を、ただ静かに歩く',
@@ -24,6 +26,7 @@ export const courses: Course[] = [
   },
   {
     slug: 'snorkel',
+    image: '/images/courses/course-snorkel.jpg',
     name: 'シュノーケル体験',
     tag: 'SNORKEL',
     tagline: 'その日いちばん美しい海へ',
@@ -35,6 +38,7 @@ export const courses: Course[] = [
   },
   {
     slug: 'hatenohama',
+    image: '/images/courses/course-hatenohama.jpg',
     name: 'はての浜ツアー',
     tag: 'BEST VIEW',
     tagline: '360度、海に囲まれて',
@@ -46,6 +50,7 @@ export const courses: Course[] = [
   },
   {
     slug: 'fishing',
+    image: '/images/courses/course-fishing.jpg',
     name: 'フィッシングツアー',
     tag: 'FISHING',
     tagline: '冬こそ釣れる、初めての海釣り',
@@ -57,6 +62,7 @@ export const courses: Course[] = [
   },
   {
     slug: 'trekking',
+    image: '/images/courses/course-trekking.jpg',
     name: 'トレッキングツアー',
     tag: 'ADVENTURE',
     tagline: 'ガイドとしか行けない秘境へ',
@@ -68,6 +74,7 @@ export const courses: Course[] = [
   },
   {
     slug: 'stargazing',
+    image: '/images/courses/course-stargazing.jpg',
     name: '星空ツアー',
     tag: 'NIGHT',
     tagline: '冬の夜空に、天の川',
