@@ -6,7 +6,7 @@
 
 :root { color-scheme: light; }
 html { scroll-behavior: smooth; }
-body { overflow-x: hidden; }
+body { overflow-x: hidden; word-break: auto-phrase; line-break: strict; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

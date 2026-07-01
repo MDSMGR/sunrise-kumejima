@@ -8,14 +8,14 @@ interface Props {
 }
 const { eyebrow, title, watermark, image, alt = '' } = Astro.props;
 ---
-<section class="fullbleed relative flex min-h-[52vh] items-end overflow-hidden text-white">
+<section class="fullbleed relative flex min-h-[44vh] items-end overflow-hidden text-white sm:min-h-[52vh]">
   <img src={image} alt={alt} class="absolute inset-0 h-full w-full object-cover" />
   <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(34,22,12,.28) 0%,rgba(34,22,12,.12) 40%,rgba(47,36,25,.72) 100%)"></div>
   {watermark && (
-    <span class="watermark watermark-light right-4 top-1/2 -translate-y-1/2 text-[26vw] sm:right-12 sm:text-[180px]">{watermark}</span>
+    <span class="watermark watermark-light right-2 top-1/2 -translate-y-1/2 text-[19vw] sm:right-12 sm:text-[180px]">{watermark}</span>
   )}
-  <div class="relative z-10 mx-auto w-full max-w-content px-6 pb-12 pt-32 sm:px-8">
+  <div class="relative z-10 mx-auto w-full max-w-content px-6 pb-9 pt-28 sm:px-8 sm:pb-12 sm:pt-32">
     {eyebrow && <p class="font-fraunces italic text-gold text-lg">{eyebrow}</p>}
-    <h1 class="mt-2 h-hero text-[40px] sm:text-[58px]">{title}</h1>
+    <h1 class="mt-2 h-hero text-[34px] sm:text-[58px]">{title}</h1>
   </div>
 </section>
