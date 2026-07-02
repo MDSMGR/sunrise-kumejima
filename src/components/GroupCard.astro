@@ -3,30 +3,32 @@ import type { Group } from '../data/courses';
 import { courses } from '../data/courses';
 interface Props { group: Group; count?: number }
 const { group, count } = Astro.props;
+const n = count ?? group.members.length;
 const members = group.members
   .map((slug) => courses.find((c) => c.slug === slug))
   .filter((c): c is NonNullable<typeof c> => Boolean(c));
 const bodyId = `grp-${group.slug}`;
 ---
-<div class="flex flex-col overflow-hidden rounded-2xl border border-line bg-card">
+<div class="flex h-full flex-col overflow-hidden rounded-2xl border-2 border-sun/35 bg-card transition-shadow duration-300 hover:shadow-soft">
   <button type="button" data-group-acc aria-expanded="false" aria-controls={bodyId}
-          class="group block w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sun">
-    <div class="relative aspect-[4/3] overflow-hidden">
+          class="group flex flex-1 flex-col text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sun">
+    <div class="relative h-52 overflow-hidden">
       <img src={group.image} alt={group.name}
            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
            style={group.imagePos ? `object-position:${group.imagePos}` : undefined} loading="lazy" />
       <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 40%,rgba(47,36,25,.45))"></div>
       <span class="absolute left-5 top-4 font-fraunces italic text-[12px] tracking-wide text-white/95 drop-shadow">{group.tag}</span>
-      {count && <span class="absolute right-4 top-4 rounded-full bg-sun px-3 py-1 text-[11px] font-bold text-white shadow-soft">{count}プラン</span>}
+      <span class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-sun px-3 py-1 text-[11px] font-bold text-white shadow-soft">
+        <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        {n}プラン
+      </span>
       <p class="absolute bottom-4 left-5 right-5 font-mincho text-white text-[15px] tracking-[0.06em] drop-shadow">{group.tagline}</p>
     </div>
-    <div class="flex items-center justify-between gap-3 px-6 py-4">
-      <div class="min-w-0">
-        <h3 class="font-mincho text-xl tracking-wide2 text-ink">{group.name}</h3>
-        <p class="mt-1 text-sm leading-relaxed text-inksoft">{group.summary}</p>
-      </div>
-      <span class="flex flex-none items-center gap-1.5 text-sm text-sun">
-        <span data-acc-label>プランを見る</span>
+    <div class="flex flex-1 flex-col p-6 min-h-[212px]">
+      <h3 class="font-mincho text-xl tracking-wide2 text-ink line-clamp-2">{group.name}</h3>
+      <p class="mt-2 text-sm leading-relaxed text-inksoft line-clamp-2">{group.summary}</p>
+      <span class="mt-auto pt-4 inline-flex items-center gap-2 self-start rounded-full bg-sun/12 px-4 py-2 text-sm font-medium text-sun">
+        <span data-acc-label>{n}つのプランから選ぶ</span>
         <svg data-acc-chev class="h-4 w-4 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
       </span>
     </div>
@@ -63,14 +65,15 @@ const bodyId = `grp-${group.slug}`;
     const body = card?.querySelector<HTMLElement>('[data-group-body]');
     const chev = btn.querySelector<HTMLElement>('[data-acc-chev]');
     const label = btn.querySelector<HTMLElement>('[data-acc-label]');
-    if (!body) return;
+    if (!body || !label) return;
+    const base = label.textContent || 'プランを見る';
     btn.addEventListener('click', () => {
       const open = btn.getAttribute('aria-expanded') === 'true';
       const next = !open;
       btn.setAttribute('aria-expanded', String(next));
       body.style.gridTemplateRows = next ? '1fr' : '0fr';
       if (chev) chev.style.transform = next ? 'rotate(180deg)' : '';
-      if (label) label.textContent = next ? '閉じる' : 'プランを見る';
+      label.textContent = next ? '閉じる' : base;
     });
   });
 </script>
