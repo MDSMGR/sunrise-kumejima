@@ -4,7 +4,8 @@ import { sentences } from '../lib/text';
 import SectionHeading from '../components/SectionHeading.astro';
 import SunDivider from '../components/SunDivider.astro';
 import CourseCard from '../components/CourseCard.astro';
-import { courses, options } from '../data/courses';
+import GroupCard from '../components/GroupCard.astro';
+import { topLevel, options } from '../data/courses';
 import { site } from '../data/site';
 
 const gallery = [
@@ -27,17 +28,17 @@ const gallery = [
     <div class="relative z-10 mx-auto w-full max-w-content px-6 pb-16 pt-32 sm:px-8">
       <p class="flex items-center gap-3 animate-rise">
         <span class="h-px w-8 bg-gold"></span>
-        <span class="font-mincho text-[13px] tracking-[0.08em] text-gold sm:text-base sm:tracking-[0.18em]" style="text-shadow:0 1px 8px rgba(34,22,12,.55)">ただのレジャーじゃない、心に残る体験を</span>
+        <span class="font-mincho text-[13px] tracking-[0.18em] text-gold sm:text-base" style="text-shadow:0 1px 8px rgba(34,22,12,.55)">Okinawa, Kumejima</span>
       </p>
-      <h1 class="mt-4 h-hero text-[36px] leading-[1.3] text-white sm:text-[76px] sm:leading-[1.28] animate-rise" style="animation-delay:.08s">
-        人生で最高の<br>冒険へ飛び込もう
+      <h1 class="mt-4 h-hero text-[34px] leading-[1.32] text-white sm:text-[64px] sm:leading-[1.3] animate-rise" style="animation-delay:.08s">
+        あなたは、本当の海を<br>知っていますか？
       </h1>
       <p class="mt-6 max-w-xl text-[15.5px] leading-loose text-white/90 animate-rise" style="animation-delay:.16s">
-        沖縄・久米島の海を舞台に、<br>SUP・シュノーケル・はての浜ツアーを<br>お届けする体験ショップ。
+        透明度も、夕陽も、静けさも。<br>久米島の海には、まだ知らないあなたの海があります。
       </p>
       <div class="mt-9 flex flex-wrap gap-3 animate-rise" style="animation-delay:.24s">
         <a href={site.line} target="_blank" rel="noopener" class="btn-line">LINEで予約・相談</a>
-        <a href="/courses" class="btn border border-white/50 bg-white/10 text-white backdrop-blur hover:bg-white/20">コースを見る</a>
+        <a href="/courses" class="btn border border-white/50 bg-white/10 text-white backdrop-blur hover:bg-white/20">プランを見る</a>
       </div>
     </div>
   </section>
@@ -47,13 +48,13 @@ const gallery = [
     <span class="watermark left-0 top-8 text-[34vw] sm:text-[260px]">海</span>
     <div class="relative wrap grid items-center gap-14 lg:grid-cols-2">
       <div>
-        <SectionHeading eyebrow="About Sunrise" title="自然と一体になる、ここだけの感動を" />
+        <SectionHeading eyebrow="About us" title="私たち SUNRISE について" />
         <div class="mt-6 space-y-4 text-[15px] leading-loose text-inksoft">
-          <p>透明度抜群のエメラルドブルー、<br>どこまでも続く水平線。<br>静けさすら特別な時間に変える、朝焼けと夕陽。<br>SUPやシュノーケルを通じて、自然と一体になる喜びをご案内します。</p>
-          <p>人気のSUP体験に加え、<br>船で訪れる久米島屈指の絶景「はての浜」へのツアーも。<br>真っ白な砂浜と360度の海に囲まれた非日常が、あなたを待っています。</p>
+          <p>私たち SUNRISE は、沖縄・久米島でマリンアクティビティをご案内する体験ショップです。<br>SUP・シュノーケルから、はての浜ツアー、釣り、トレッキングまで。<br>久米島の海と自然を、さまざまな角度からご案内します。</p>
+          <p>島を知り尽くしたガイドが、あなたの「本当の久米島」との出会いを、安全第一でお手伝いします。<br>（※会社紹介文は仮です。正式な文面に差し替えてください）</p>
         </div>
       </div>
-      <div class="overflow-hidden rounded-3xl border border-line shadow-soft">
+      <div class="hidden overflow-hidden rounded-3xl border border-line shadow-soft lg:block">
         <img src="/images/courses/course-hatenohama.jpg" alt="はての浜の白い砂浜と海" class="aspect-[4/3] w-full object-cover" loading="lazy" />
       </div>
     </div>
@@ -64,11 +65,13 @@ const gallery = [
     <span class="watermark right-0 top-4 text-[30vw] sm:text-[220px]">遊</span>
     <div class="relative wrap">
       <div class="flex flex-wrap items-end justify-between gap-6">
-        <SectionHeading eyebrow="Courses" title="SUNRISE のコース" />
+        <SectionHeading eyebrow="Choose your plan" title="あなたのプランを選ぶ" />
         <a href="/courses" class="font-fraunces italic text-sun hover:underline">すべて見る →</a>
       </div>
       <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {courses.map((course) => <CourseCard course={course} />)}
+        {topLevel.map((item) => (item.kind === 'group'
+          ? <GroupCard group={item.group} count={item.group.members.length} />
+          : <CourseCard course={item.course} />))}
       </div>
     </div>
   </section>
@@ -92,7 +95,7 @@ const gallery = [
       <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-loose text-inksoft">
         ツアーをさらに特別な思い出に。<br>体験を鮮やかに彩る追加オプションをご用意しています。
       </p>
-      <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <div class="mt-12 grid gap-6 sm:grid-cols-2">
         {options.map((opt, i) => (
           <div class="rounded-2xl border border-line bg-card p-7">
             <span class="font-fraunces italic text-4xl text-gold">0{i + 1}</span>

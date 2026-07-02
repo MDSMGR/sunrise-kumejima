@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import PageHero from '../components/PageHero.astro';
 import CourseCard from '../components/CourseCard.astro';
-import { courses, options } from '../data/courses';
+import GroupCard from '../components/GroupCard.astro';
+import { topLevel, options } from '../data/courses';
 import { sentences } from '../lib/text';
 ---
 <Base title="コースのご案内" description="SUNRISE 久米島のマリン体験コース一覧。体験SUP・シュノーケル・はての浜ツアー・フィッシング・トレッキング・星空ツアーをご案内します。">
@@ -16,7 +17,9 @@ import { sentences } from '../lib/text';
 
   <section class="py-14">
     <div class="wrap grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {courses.map((course) => <CourseCard course={course} />)}
+      {topLevel.map((item) => (item.kind === 'group'
+        ? <GroupCard group={item.group} count={item.group.members.length} />
+        : <CourseCard course={item.course} />))}
     </div>
   </section>
 
@@ -24,7 +27,7 @@ import { sentences } from '../lib/text';
   <section class="bg-white py-20">
     <div class="wrap">
       <SectionHeading eyebrow="Options" title="追加オプション" align="center" />
-      <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="mt-10 grid gap-6 sm:grid-cols-2">
         {options.map((opt, i) => (
           <div class="rounded-2xl border border-line bg-paper p-7">
             <span class="font-fraunces italic text-3xl text-gold">0{i + 1}</span>

@@ -1,0 +1,54 @@
+---
+interface Props {
+  images: string[];
+  alt?: string;
+}
+const { images, alt = '' } = Astro.props;
+const imgs = (images && images.length ? images : []).slice(0, 5);
+---
+<div data-gallery>
+  <figure class="overflow-hidden rounded-3xl border border-line shadow-soft">
+    <img data-main src={imgs[0]} alt={alt} class="aspect-[4/3] w-full object-cover transition-opacity duration-200" />
+  </figure>
+
+  {imgs.length > 1 && (
+    <div class="mt-3 grid gap-2 sm:gap-3" style={`grid-template-columns:repeat(${imgs.length},minmax(0,1fr))`}>
+      {imgs.map((src, i) => (
+        <button
+          type="button"
+          data-thumb
+          data-src={src}
+          aria-label={`写真${i + 1}を表示`}
+          class:list={[
+            'aspect-square overflow-hidden rounded-xl border transition',
+            i === 0 ? 'border-sun ring-2 ring-sun/40' : 'border-line opacity-70 hover:opacity-100',
+          ]}
+        >
+          <img src={src} alt="" class="h-full w-full object-cover" loading="lazy" />
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll('[data-gallery]').forEach((g) => {
+    const main = g.querySelector('[data-main]') as HTMLImageElement | null;
+    const thumbs = g.querySelectorAll('[data-thumb]');
+    if (!main) return;
+    thumbs.forEach((t) => {
+      t.addEventListener('click', () => {
+        const src = t.getAttribute('data-src');
+        if (!src) return;
+        main.style.opacity = '0';
+        setTimeout(() => { main.src = src; main.style.opacity = '1'; }, 120);
+        thumbs.forEach((x) => {
+          x.classList.remove('border-sun', 'ring-2', 'ring-sun/40');
+          x.classList.add('border-line', 'opacity-70');
+        });
+        t.classList.remove('border-line', 'opacity-70');
+        t.classList.add('border-sun', 'ring-2', 'ring-sun/40');
+      });
+    });
+  });
+</script>

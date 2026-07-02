@@ -1,0 +1,19 @@
+---
+import type { Group } from '../data/courses';
+interface Props { group: Group; count?: number }
+const { group, count } = Astro.props;
+---
+<a href={`/courses/${group.slug}`} class="group flex flex-col overflow-hidden rounded-2xl border border-line bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
+  <div class="relative aspect-[4/3] overflow-hidden">
+    <img src={group.image} alt={group.name} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+    <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 40%,rgba(47,36,25,.45))"></div>
+    <span class="absolute left-5 top-4 font-fraunces italic text-[12px] tracking-wide text-white/95 drop-shadow">{group.tag}</span>
+    {count && <span class="absolute right-4 top-4 rounded-full bg-sun px-3 py-1 text-[11px] font-bold text-white shadow-soft">{count}プラン</span>}
+    <p class="absolute bottom-4 left-5 right-5 font-mincho text-white text-[15px] tracking-[0.06em] drop-shadow">{group.tagline}</p>
+  </div>
+  <div class="flex flex-1 flex-col p-6">
+    <h3 class="font-mincho text-xl tracking-wide2 text-ink">{group.name}</h3>
+    <p class="mt-2 text-sm leading-relaxed text-inksoft">{group.summary}</p>
+    <span class="mt-5 inline-flex items-center gap-1 font-fraunces italic text-sun text-sm">プランを見る →</span>
+  </div>
+</a>
