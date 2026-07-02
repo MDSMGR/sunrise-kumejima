@@ -69,6 +69,22 @@ const { kind } = Astro.props as any;
           <div class="wrap grid items-start gap-12 lg:grid-cols-[1.02fr_.98fr]">
             <div>
               <p class="font-mincho text-2xl tracking-[0.06em] text-ember sm:text-[28px]">{course.tagline}</p>
+              {(course.price || course.duration) && (
+                <dl class="mt-6 flex flex-wrap gap-x-10 gap-y-3 border-y border-line py-4">
+                  {course.duration && (
+                    <div>
+                      <dt class="font-fraunces italic text-ember text-xs">所要時間</dt>
+                      <dd class="mt-0.5 font-mincho text-lg tracking-wide2 text-ink">{course.duration}</dd>
+                    </div>
+                  )}
+                  {course.price && (
+                    <div>
+                      <dt class="font-fraunces italic text-ember text-xs">料金</dt>
+                      <dd class="mt-0.5 font-mincho text-lg tracking-wide2 text-ink">{course.price}</dd>
+                    </div>
+                  )}
+                </dl>
+              )}
               <p class="mt-6 text-[15px] leading-loose text-inksoft" set:html={sentences(course.detail)}></p>
               <div class="mt-7 flex flex-wrap gap-2">
                 {course.highlights.map((h: string) => (

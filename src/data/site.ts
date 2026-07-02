@@ -1,5 +1,5 @@
 export const site = {
-  name: 'SUNRISE 久米島',
+  name: '久米島ツアーSUNRISE',
   nameEn: 'SUNRISE',
   tagline: '人生で最高の冒険へ飛び込もう',
   description:
