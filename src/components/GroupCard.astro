@@ -1,19 +1,76 @@
 ---
 import type { Group } from '../data/courses';
+import { courses } from '../data/courses';
 interface Props { group: Group; count?: number }
 const { group, count } = Astro.props;
+const members = group.members
+  .map((slug) => courses.find((c) => c.slug === slug))
+  .filter((c): c is NonNullable<typeof c> => Boolean(c));
+const bodyId = `grp-${group.slug}`;
 ---
-<a href={`/courses/${group.slug}`} class="group flex flex-col overflow-hidden rounded-2xl border border-line bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
-  <div class="relative aspect-[4/3] overflow-hidden">
-    <img src={group.image} alt={group.name} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-    <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 40%,rgba(47,36,25,.45))"></div>
-    <span class="absolute left-5 top-4 font-fraunces italic text-[12px] tracking-wide text-white/95 drop-shadow">{group.tag}</span>
-    {count && <span class="absolute right-4 top-4 rounded-full bg-sun px-3 py-1 text-[11px] font-bold text-white shadow-soft">{count}プラン</span>}
-    <p class="absolute bottom-4 left-5 right-5 font-mincho text-white text-[15px] tracking-[0.06em] drop-shadow">{group.tagline}</p>
+<div class="flex flex-col overflow-hidden rounded-2xl border border-line bg-card">
+  <button type="button" data-group-acc aria-expanded="false" aria-controls={bodyId}
+          class="group block w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sun">
+    <div class="relative aspect-[4/3] overflow-hidden">
+      <img src={group.image} alt={group.name}
+           class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+           style={group.imagePos ? `object-position:${group.imagePos}` : undefined} loading="lazy" />
+      <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 40%,rgba(47,36,25,.45))"></div>
+      <span class="absolute left-5 top-4 font-fraunces italic text-[12px] tracking-wide text-white/95 drop-shadow">{group.tag}</span>
+      {count && <span class="absolute right-4 top-4 rounded-full bg-sun px-3 py-1 text-[11px] font-bold text-white shadow-soft">{count}プラン</span>}
+      <p class="absolute bottom-4 left-5 right-5 font-mincho text-white text-[15px] tracking-[0.06em] drop-shadow">{group.tagline}</p>
+    </div>
+    <div class="flex items-center justify-between gap-3 px-6 py-4">
+      <div class="min-w-0">
+        <h3 class="font-mincho text-xl tracking-wide2 text-ink">{group.name}</h3>
+        <p class="mt-1 text-sm leading-relaxed text-inksoft">{group.summary}</p>
+      </div>
+      <span class="flex flex-none items-center gap-1.5 text-sm text-sun">
+        <span data-acc-label>プランを見る</span>
+        <svg data-acc-chev class="h-4 w-4 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </span>
+    </div>
+  </button>
+
+  <div id={bodyId} data-group-body style="display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease;">
+    <div class="overflow-hidden">
+      <div class="flex flex-col gap-2 px-4 pb-5 pt-1">
+        {members.map((m) => (
+          <a href={`/courses/${m.slug}`}
+             class="flex items-center justify-between gap-3 rounded-xl border border-line bg-paper/60 px-4 py-3 transition-colors hover:bg-paper">
+            <span class="min-w-0">
+              <span class="block font-mincho text-[15px] text-ink">{m.name}</span>
+              <span class="block truncate text-xs text-inksoft">{m.tagline}</span>
+              {(m.price || m.duration) && (
+                <span class="mt-0.5 block text-[11px] text-ember">{[m.duration, m.price].filter(Boolean).join(' ・ ')}</span>
+              )}
+            </span>
+            <span class="flex-none whitespace-nowrap text-xs text-sun">詳細へ →</span>
+          </a>
+        ))}
+        <a href={`/courses/${group.slug}`}
+           class="mt-1 inline-flex self-start items-center gap-1 font-fraunces italic text-sm text-inksoft transition-colors hover:text-sun">
+          {group.name}のページを見る →
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="flex flex-1 flex-col p-6">
-    <h3 class="font-mincho text-xl tracking-wide2 text-ink">{group.name}</h3>
-    <p class="mt-2 text-sm leading-relaxed text-inksoft">{group.summary}</p>
-    <span class="mt-5 inline-flex items-center gap-1 font-fraunces italic text-sun text-sm">プランを見る →</span>
-  </div>
-</a>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-group-acc]').forEach((btn) => {
+    const card = btn.parentElement;
+    const body = card?.querySelector<HTMLElement>('[data-group-body]');
+    const chev = btn.querySelector<HTMLElement>('[data-acc-chev]');
+    const label = btn.querySelector<HTMLElement>('[data-acc-label]');
+    if (!body) return;
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      const next = !open;
+      btn.setAttribute('aria-expanded', String(next));
+      body.style.gridTemplateRows = next ? '1fr' : '0fr';
+      if (chev) chev.style.transform = next ? 'rotate(180deg)' : '';
+      if (label) label.textContent = next ? '閉じる' : 'プランを見る';
+    });
+  });
+</script>

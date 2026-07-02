@@ -21,6 +21,7 @@ export type Group = {
   tagline: string;
   summary: string;
   image: string;
+  imagePos?: string; // 表紙画像の焦点位置（object-position）。未指定なら中央
   members: string[];
 };
 
@@ -48,6 +49,7 @@ export const groups: Group[] = [
     members: ['trekking-basic', 'hikyo'] },
   { slug: 'yugyosen', name: '遊漁船', tag: 'FISHING', tagline: '漁師ガイドと、本気の海釣り',
     summary: '1人プランと貸切プランの2つからお選びいただけます。', image: '/images/courses/okazuri-1.jpg',
+    imagePos: 'center 25%',
     members: ['yugyosen-solo', 'yugyosen-charter'] },
 ];
 

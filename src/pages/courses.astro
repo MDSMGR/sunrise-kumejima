@@ -16,7 +16,7 @@ import { sentences } from '../lib/text';
   </section>
 
   <section class="py-14">
-    <div class="wrap grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="wrap grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {topLevel.map((item) => (item.kind === 'group'
         ? <GroupCard group={item.group} count={item.group.members.length} />
         : <CourseCard course={item.course} />))}
