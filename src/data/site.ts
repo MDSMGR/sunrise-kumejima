@@ -37,19 +37,19 @@ export const cafe = {
       name: 'タコライス',
       price: '¥1,500',
       body: '沖縄定番のタコライス。スパイスの効いたミート、シャキシャキ野菜、とろけるチーズを一皿に。',
-      image: '/images/cafe-tacorice.jpg',
+      image: '/images/cafe-tacorice.webp',
     },
     {
       name: '紅芋ブリュレ',
       price: '¥1,300',
       body: '沖縄産・紅芋のブリュレ。香ばしく焦がした表面と、ねっとり甘い紅芋の余韻。締めの一品に。',
-      image: '/images/cafe-beniimo.jpg',
+      image: '/images/cafe-beniimo.webp',
     },
     {
       name: '車海老の塩焼き',
       price: '¥1,200',
       body: 'ぷりっと甘い車海老をシンプルに塩焼きで。素材の旨みを、レモンをきゅっと搾って。',
-      image: '/images/cafe-ebi.jpg',
+      image: '/images/cafe-ebi.webp',
     },
   ],
 };
@@ -150,6 +150,6 @@ export const staff = [
     role: '代表ガイド',
     comment: '久米島の魅力を知り尽くしたガイドがご案内します！\n何でもお気軽にお話しください！',
     body: 'SUP・シュノーケルから、はての浜ツアー、フィッシング、トレッキング、星空まで。久米島の海と自然を誰よりも知り尽くした代表ガイドが、安全第一であなたの一日をご案内します。初めての方も、お子さま連れのご家族も、その日のベストな体験を一緒に見つけましょう。',
-    image: '/images/staff-guide.jpg',
+    image: '/images/staff-guide.webp',
   },
 ];

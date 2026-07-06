@@ -7,8 +7,12 @@ const { images, alt = '' } = Astro.props;
 const imgs = (images && images.length ? images : []).slice(0, 8);
 ---
 <div data-gallery>
-  <figure class="overflow-hidden rounded-3xl border border-line shadow-soft">
-    <img data-main src={imgs[0]} alt={alt} class="aspect-[4/3] w-full object-cover transition-opacity duration-200" />
+  <figure class="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line shadow-soft bg-cream">
+    <!-- ぼかし背景で余白を自然に埋める（顔などが見切れないよう本体は contain 表示） -->
+    <img data-main-bg src={imgs[0]} alt="" aria-hidden="true"
+         class="absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-2xl" />
+    <img data-main src={imgs[0]} alt={alt} decoding="async"
+         class="absolute inset-0 h-full w-full object-contain transition-opacity duration-200" />
   </figure>
 
   {imgs.length > 1 && (
@@ -24,7 +28,7 @@ const imgs = (images && images.length ? images : []).slice(0, 8);
             i === 0 ? 'border-sun ring-2 ring-sun/40' : 'border-line opacity-70 hover:opacity-100',
           ]}
         >
-          <img src={src} alt="" class="h-full w-full object-cover" loading="lazy" />
+          <img src={src} alt="" class="h-full w-full object-cover" loading="lazy" decoding="async" />
         </button>
       ))}
     </div>
@@ -34,6 +38,7 @@ const imgs = (images && images.length ? images : []).slice(0, 8);
 <script>
   document.querySelectorAll('[data-gallery]').forEach((g) => {
     const main = g.querySelector('[data-main]') as HTMLImageElement | null;
+    const mainBg = g.querySelector('[data-main-bg]') as HTMLImageElement | null;
     const thumbs = g.querySelectorAll('[data-thumb]');
     if (!main) return;
     thumbs.forEach((t) => {
@@ -41,7 +46,11 @@ const imgs = (images && images.length ? images : []).slice(0, 8);
         const src = t.getAttribute('data-src');
         if (!src) return;
         main.style.opacity = '0';
-        setTimeout(() => { main.src = src; main.style.opacity = '1'; }, 120);
+        setTimeout(() => {
+          main.src = src;
+          if (mainBg) mainBg.src = src;
+          main.style.opacity = '1';
+        }, 120);
         thumbs.forEach((x) => {
           x.classList.remove('border-sun', 'ring-2', 'ring-sun/40');
           x.classList.add('border-line', 'opacity-70');
