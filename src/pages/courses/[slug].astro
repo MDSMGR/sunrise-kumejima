@@ -4,7 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 import CourseGallery from '../../components/CourseGallery.astro';
 import CourseCard from '../../components/CourseCard.astro';
 import SunDivider from '../../components/SunDivider.astro';
-import { courses, groups, options } from '../../data/courses';
+import { courses, groups, options, priceNote } from '../../data/courses';
 import { site } from '../../data/site';
 import { sentences } from '../../lib/text';
 
@@ -85,6 +85,9 @@ const { kind } = Astro.props as any;
                   )}
                 </dl>
               )}
+              {course.price && (
+                <p class="mt-2 text-xs leading-relaxed text-inksoft">{priceNote}</p>
+              )}
               <p class="mt-6 text-[15px] leading-loose text-inksoft" set:html={sentences(course.detail)}></p>
               <div class="mt-7 flex flex-wrap gap-2">
                 {course.highlights.map((h: string) => (
@@ -105,10 +108,13 @@ const { kind } = Astro.props as any;
           <div class="wrap">
             <h2 class="text-center font-mincho text-2xl text-ink sm:text-3xl">思い出を、もっと鮮やかに</h2>
             <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-loose text-inksoft">体験を彩る追加オプションをご用意しています。<br>ツアー予約時にお気軽にご相談ください。</p>
-            <div class="mt-10 grid gap-6 sm:grid-cols-2">
+            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {options.map((opt: any, i: number) => (
                 <div class="rounded-2xl border border-line bg-card p-7">
-                  <span class="font-fraunces italic text-3xl text-gold">0{i + 1}</span>
+                  <div class="flex items-center justify-between">
+                    <span class="font-fraunces italic text-3xl text-gold">0{i + 1}</span>
+                    {opt.price && <span class="rounded-full bg-sun/12 px-3 py-1 text-xs font-bold text-sun">{opt.price}</span>}
+                  </div>
                   <h3 class="mt-2 font-mincho text-lg text-ink">{opt.name}</h3>
                   <p class="mt-3 text-sm leading-relaxed text-inksoft" set:html={sentences(opt.body)}></p>
                 </div>

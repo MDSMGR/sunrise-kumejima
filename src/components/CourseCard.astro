@@ -17,7 +17,6 @@ const tone: Record<Course['duotone'], string> = {
       ? <img src={course.image} alt={`${course.name}の様子`} class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
       : <div class="absolute inset-0" style={`background-image:${tone[course.duotone]}`}></div>}
     <div class="absolute inset-0" style="background:linear-gradient(0deg,rgba(34,22,12,.55),transparent 55%)"></div>
-    <span class="absolute left-5 top-4 font-fraunces italic text-[12px] tracking-wide text-white/95 drop-shadow">{course.tag}</span>
     <p class="absolute bottom-4 left-5 right-5 font-mincho text-white text-[15px] drop-shadow tracking-[0.06em]">{course.tagline}</p>
   </div>
   <div class="flex flex-1 flex-col p-6 min-h-[212px]">
