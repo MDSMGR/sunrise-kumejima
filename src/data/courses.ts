@@ -12,6 +12,7 @@ export type Course = {
   group?: string;
   price?: string;       // 料金（例: '¥20,000 / 1名'）
   duration?: string;    // 所要時間（例: '約2時間'）
+  popular?: boolean;    // 「一番人気」として目立たせる
 };
 
 export type Group = {
@@ -52,13 +53,13 @@ const G = {
 export const groups: Group[] = [
   { slug: 'sup', name: 'SUP', tag: 'SUP', tagline: '海の上を、ただ静かに歩く',
     summary: '体験・サンライズ・サンセットの3プランから選べます。', image: '/images/courses/sup-taiken-5.webp',
-    members: ['sup-taiken', 'sup-sunrise', 'sup-sunset'] },
+    members: ['sup-sunset', 'sup-taiken', 'sup-sunrise'] },
   { slug: 'hama', name: '無人島・はての浜', tag: 'ISLAND', tagline: '白い砂浜と、360度の海へ',
     summary: '無人島ツアーやはての浜の渡船・フルコースなど4プラン。', image: '/images/courses/hama-3.webp',
-    members: ['mujinto', 'hatenohama-full', 'hatenohama-tosen', 'hatenohama-tosen-snorkel'] },
+    members: ['hatenohama-full', 'mujinto', 'hatenohama-tosen', 'hatenohama-tosen-snorkel'] },
   { slug: 'trekking', name: 'トレッキング・秘境ツアー', tag: 'ADVENTURE', tagline: 'ガイドとしか行けない秘境へ',
     summary: '絶景トレッキングと秘境探検の2プラン。', image: G.trek,
-    members: ['trekking-basic', 'hikyo'] },
+    members: ['hikyo', 'trekking-basic'] },
   { slug: 'yugyosen', name: '遊漁船', tag: 'FISHING', tagline: '漁師ガイドと、本気の海釣り',
     summary: '沖釣り体験と貸切チャーターの2プランからお選びいただけます。', image: '/images/courses/okazuri-1.webp',
     imagePos: 'center 25%',
@@ -80,7 +81,7 @@ export const courses: Course[] = [
   { slug: 'sup-sunset', group: 'sup', name: 'サンセットSUP｜夕焼けの海クルーズ', tag: 'SUP', tagline: '夕陽に染まる海を漕ぐ',
     summary: '刻々と色を変える夕景の海を漕ぐ、ロマンチックなサンセットSUP。',
     detail: '空と海がオレンジから茜色へと染まっていく時間に漕ぎ出すSUP。刻一刻と表情を変える夕景のなかを、波の音だけを聞きながらゆったりと進みます。一日の終わりを久米島の夕陽とともに締めくくる、カップルや女性同士のご旅行にも人気のロマンチックなプランです。',
-    highlights: ['夕方開催', 'サンセット', 'カップルに人気', '90分'], duration: '90分', price: '¥9,000 / 1名', duotone: 'gold', image: '/images/courses/sup-sunset-1.webp',
+    highlights: ['夕方開催', 'サンセット', 'カップルに人気', '90分'], duration: '90分', price: '¥9,000 / 1名', popular: true, duotone: 'gold', image: '/images/courses/sup-sunset-1.webp',
     gallery: ['/images/courses/sup-sunset-1.webp', '/images/courses/sup-sunset-2.webp', '/images/courses/sup-sunset-3.webp', '/images/courses/sup-sunset-4.webp', '/images/courses/sup-sunset-5.webp', '/images/courses/sup-sunset-6.webp', '/images/courses/sup-sunset-7.webp', '/images/courses/sup-sunset-8.webp'] },
 
   // ── 無人島・はての浜 ──
@@ -92,7 +93,7 @@ export const courses: Course[] = [
   { slug: 'hatenohama-full', group: 'hama', name: 'はての浜完全満喫プレミアムツアー', tag: 'BEST VIEW', tagline: '渡船・SUP・シュノーケル、全部',
     summary: '渡船・SUP・シュノーケルを一度に楽しむ、いちばん贅沢なフルコース。',
     detail: 'どこまでも続く真っ白な砂浜と、360度を海に囲まれた久米島随一の絶景「はての浜」。渡船で砂州へ上陸し、SUPで遠浅の海を進み、シュノーケルで色鮮やかな魚たちと泳ぐ——久米島の海の魅力をこの一日にすべて詰め込んだ、最上級のフルコースです。時間をたっぷり使って、はての浜を心ゆくまで味わいたい方に。',
-    highlights: ['渡船・SUP・シュノーケル', 'はての浜上陸', '180分たっぷり'], duration: '180分', price: '¥15,000 / 1名', duotone: 'gold', image: '/images/courses/hama-2.webp',
+    highlights: ['渡船・SUP・シュノーケル', 'はての浜上陸', '180分たっぷり'], duration: '180分', price: '¥15,000 / 1名', popular: true, duotone: 'gold', image: '/images/courses/hama-2.webp',
     gallery: ['/images/courses/hama-2.webp', '/images/courses/hama-3.webp', '/images/courses/hama-1.webp', '/images/courses/hama-6.webp', '/images/courses/hama-7.webp'] },
   { slug: 'hatenohama-tosen', group: 'hama', name: 'はての浜上陸クルーズ（渡船のみ）', tag: 'BEST VIEW', tagline: '白い砂浜へ、ひとっ飛び',
     summary: '東洋一とも称される白い砂浜「はての浜」へ、気軽に上陸。',
@@ -114,14 +115,14 @@ export const courses: Course[] = [
   { slug: 'hikyo', group: 'trekking', name: '秘境探検ツアー', tag: 'ADVENTURE', tagline: 'ガイドとしか行けない場所へ',
     summary: '洞窟・断崖・大迫力の滝を目指す、冒険気分たっぷりの秘境ツアー。',
     detail: '地元ガイドと一緒でなければ辿り着けない、久米島の秘境へ分け入る探検ツアー。亜熱帯の森を抜け、神秘的な洞窟や切り立った断崖、知る人ぞ知る大迫力の滝を目指します。マイナスイオンあふれる大自然のなかで、冒険気分を存分に味わえます。しっかり歩ける服装・靴でのご参加がおすすめです。',
-    highlights: ['ガイド必須', '秘境の滝', '冒険感MAX', '150分'], duration: '150分', price: '¥8,000 / 1名', duotone: 'deep', image: '/images/courses/hikyo-1.webp',
+    highlights: ['ガイド必須', '秘境の滝', '冒険感MAX', '150分'], duration: '150分', price: '¥8,000 / 1名', popular: true, duotone: 'deep', image: '/images/courses/hikyo-1.webp',
     gallery: ['/images/courses/hikyo-1.webp', '/images/courses/hikyo-2.webp', '/images/courses/hikyo-3.webp', '/images/courses/hikyo-4.webp', '/images/courses/hikyo-5.webp', '/images/courses/hikyo-6.webp', '/images/courses/hikyo-7.webp', '/images/courses/hikyo-8.webp'] },
 
   // ── 単体 ──
   { slug: 'snorkel', name: 'シュノーケリングツアー', tag: 'SNORKEL', tagline: 'その日いちばん美しい海へ',
     summary: '船でその日のベストポイントへ。魚影の濃い海を満喫。',
     detail: 'ガイドがその日の海況を見極め、もっとも美しく魚影の濃いポイントへ船でお連れします。カラフルな珊瑚礁と熱帯魚の群れ、運が良ければウミガメに出会えることも。ガイドが常に寄り添うので、シュノーケルが初めての方や泳ぎに自信のない方も安心。久米島の海のいちばんいい表情に会いに行きましょう。',
-    highlights: ['ガイド同行', 'ベストポイントへ船で', '器材レンタル込み', '120分'], duration: '120分', price: '¥10,000 / 1名', duotone: 'lagoon', image: '/images/courses/snorkel-1.webp',
+    highlights: ['ガイド同行', 'ベストポイントへ船で', '器材レンタル込み', '120分'], duration: '120分', price: '¥10,000 / 1名', popular: true, duotone: 'lagoon', image: '/images/courses/snorkel-1.webp',
     gallery: ['/images/courses/snorkel-1.webp', '/images/courses/snorkel-2.webp', '/images/courses/snorkel-3.webp', '/images/courses/snorkel-4.webp', '/images/courses/snorkel-5.webp', '/images/courses/snorkel-6.webp', '/images/courses/snorkel-7.webp', '/images/courses/snorkel-8.webp'] },
   { slug: 'stargazing', name: '星のソムリエと行く 久米島星空フォトツアー', tag: 'NIGHT', tagline: '冬の夜空に、天の川',
     summary: '星のソムリエが案内。星空観察と一眼レフ撮影・データ進呈付き。',
@@ -136,7 +137,7 @@ export const courses: Course[] = [
   { slug: 'yugyosen-solo', group: 'yugyosen', name: '沖釣りフィッシング体験ツアー', tag: 'FISHING', tagline: '漁師ガイドと、本気の海釣り',
     summary: '久米島沖で本格的な船釣りに挑戦。漁師ガイドが同行。',
     detail: '漁師の経験を持つガイドが、その日の潮の流れや天候にあわせてベストな釣り場へご案内。久米島近海の五目釣りから、大物を狙う外洋の釣りまで、本格的な船釣りを体験できます。道具のレンタルもあるので手ぶらでOK。釣った魚は、持ち帰りやお店での調理のご相談も可能です。',
-    highlights: ['漁師ガイド同行', '本格船釣り', '道具レンタルあり', '4時間'], duration: '4時間', price: '¥20,000 / 1名', duotone: 'deep', image: '/images/courses/fish-1.webp',
+    highlights: ['漁師ガイド同行', '本格船釣り', '道具レンタルあり', '4時間'], duration: '4時間', price: '¥20,000 / 1名', popular: true, duotone: 'deep', image: '/images/courses/fish-1.webp',
     gallery: ['/images/courses/fish-1.webp', '/images/courses/fish-6.webp', '/images/courses/fish-4.webp', '/images/courses/fish-8.webp', '/images/courses/fish-2.webp', '/images/courses/fish-9.webp', '/images/courses/fish-5.webp', '/images/courses/fish-10.webp'] },
   { slug: 'yugyosen-charter', group: 'yugyosen', name: '貸切チャーターフィッシングツアー', tag: 'FISHING', tagline: '船を貸し切って、仲間と',
     summary: '仲間や家族だけで楽しむ、完全貸切の船釣りプラン。',

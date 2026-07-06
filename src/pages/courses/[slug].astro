@@ -1,27 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
-import PageHero from '../../components/PageHero.astro';
 import CourseGallery from '../../components/CourseGallery.astro';
 import CourseCard from '../../components/CourseCard.astro';
-import SunDivider from '../../components/SunDivider.astro';
-import { courses, groups, options, priceNote, facilityInfo } from '../../data/courses';
+import { courses, groups, priceNote, facilityInfo } from '../../data/courses';
 import { site } from '../../data/site';
 import { sentences } from '../../lib/text';
 
 export function getStaticPaths() {
-  const wm: Record<string, string> = { sup: '海', hama: '浜', trekking: '森', yugyosen: '釣' };
   const groupPaths = groups.map((group) => ({
     params: { slug: group.slug },
     props: {
       kind: 'group',
       group,
       members: group.members.map((s) => courses.find((c) => c.slug === s)),
-      wm: wm[group.slug] ?? '遊',
     },
   }));
-  const cwm: Record<string, string> = {
-    sup: '海', hama: '浜', trekking: '森', yugyosen: '釣',
-  };
   const coursePaths = courses.map((course, i) => ({
     params: { slug: course.slug },
     props: {
@@ -29,7 +22,6 @@ export function getStaticPaths() {
       course,
       prev: courses[(i - 1 + courses.length) % courses.length],
       next: courses[(i + 1) % courses.length],
-      wm: cwm[course.group ?? ''] ?? '遊',
     },
   }));
   return [...groupPaths, ...coursePaths];
@@ -39,20 +31,27 @@ const { kind } = Astro.props as any;
 ---
 {kind === 'group' ? (
   (() => {
-    const { group, members, wm } = Astro.props as any;
+    const { group, members } = Astro.props as any;
     return (
       <Base title={group.name} description={group.summary}>
-        <PageHero eyebrow={group.tag} title={group.name} watermark={wm} image={group.image} alt={group.name} />
-        <section class="pt-16">
-          <div class="wrap max-w-3xl">
-            <p class="text-[15px] leading-loose text-inksoft">{group.summary}<br class="hidden sm:block">気になるプランをタップすると、写真と詳しい内容がご覧いただけます。</p>
-          </div>
+        {/* 見出し（写真の上に載せず、左上に大きく） */}
+        <section class="wrap pt-28 pb-6 sm:pt-32 sm:pb-8">
+          <p class="font-fraunces italic text-ember text-base sm:text-lg">{group.tag}</p>
+          <h1 class="mt-1 h-hero text-[28px] leading-tight text-ink sm:text-[46px]">{group.name}</h1>
+          <p class="mt-3 max-w-2xl text-[15px] leading-loose text-inksoft">{group.summary}<br class="hidden sm:block">気になるプランをタップすると、写真と詳しい内容がご覧いただけます。</p>
         </section>
-        <section class="py-14">
+
+        {/* 1枚のヒーロー写真（テキストなし） */}
+        <div class="fullbleed relative overflow-hidden">
+          <img src={group.image} alt={group.name} class="h-[38vh] w-full object-cover sm:h-[52vh]" style={group.imagePos ? `object-position:${group.imagePos}` : undefined} />
+        </div>
+
+        <section class="py-12 sm:py-14">
           <div class="wrap grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {members.map((course: any) => <CourseCard course={course} />)}
           </div>
         </section>
+
         <section class="wrap pb-20">
           <a href="/courses" class="font-fraunces italic text-sun hover:underline">← すべてのメニュー</a>
         </section>
@@ -61,76 +60,84 @@ const { kind } = Astro.props as any;
   })()
 ) : (
   (() => {
-    const { course, prev, next, wm } = Astro.props as any;
+    const { course, prev, next } = Astro.props as any;
+    const heroImg = course.image ?? (course.gallery && course.gallery[0]);
     return (
       <Base title={course.name} description={course.summary}>
-        <PageHero eyebrow={course.tag} title={course.name} watermark={wm} image={course.image} alt={`${course.name}の様子`} />
-        <section class="py-16">
-          <div class="wrap grid items-start gap-12 lg:grid-cols-[1.02fr_.98fr]">
-            <div>
-              <p class="font-mincho text-2xl tracking-[0.06em] text-ember sm:text-[28px]">{course.tagline}</p>
-              {(course.price || course.duration) && (
-                <dl class="mt-6 flex flex-wrap gap-x-10 gap-y-3 border-y border-line py-4">
-                  {course.duration && (
-                    <div>
-                      <dt class="font-fraunces italic text-ember text-xs">所要時間</dt>
-                      <dd class="mt-0.5 font-mincho text-lg tracking-wide2 text-ink">{course.duration}</dd>
-                    </div>
-                  )}
-                  {course.price && (
-                    <div>
-                      <dt class="font-fraunces italic text-ember text-xs">料金</dt>
-                      <dd class="mt-0.5 font-mincho text-lg tracking-wide2 text-ink">{course.price}</dd>
-                    </div>
-                  )}
-                </dl>
-              )}
-              {course.price && (
-                <p class="mt-2 text-xs leading-relaxed text-inksoft">{priceNote}</p>
-              )}
-              <p class="mt-6 text-[15px] leading-loose text-inksoft" set:html={sentences(course.detail)}></p>
-              <div class="mt-7 flex flex-wrap gap-2">
-                {course.highlights.map((h: string) => (
-                  <span class="rounded-full border border-line bg-card px-3.5 py-1.5 text-xs font-medium text-ember">{h}</span>
-                ))}
-              </div>
-              <a href={site.line} target="_blank" rel="noopener" class="btn-line mt-9">このプランを予約・相談</a>
-              <dl class="mt-9 grid gap-x-8 gap-y-3 border-t border-line pt-6 sm:grid-cols-2">
-                {facilityInfo.map((it) => (
-                  <div>
-                    <dt class="font-fraunces italic text-ember text-xs">{it.label}</dt>
-                    <dd class="mt-0.5 text-[13.5px] leading-relaxed text-inksoft">{it.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div>
-              <CourseGallery images={course.gallery ?? [course.image]} alt={`${course.name}の様子`} />
-            </div>
-          </div>
+        {/* ① ツアー名（左上に大きく・写真の上に載せない） */}
+        <section class="wrap pt-28 pb-6 sm:pt-32 sm:pb-8">
+          <p class="font-fraunces italic text-ember text-base sm:text-lg">{course.tag}</p>
+          <h1 class="mt-1 h-hero text-[28px] leading-tight text-ink sm:text-[46px]">{course.name}</h1>
+          <p class="mt-3 font-mincho text-lg text-ember sm:text-xl">{course.tagline}</p>
         </section>
 
-        <div class="wrap"><SunDivider /></div>
+        {/* ② 1枚のヒーロー写真（テキストなし） */}
+        {heroImg && (
+          <div class="fullbleed relative overflow-hidden">
+            <img src={heroImg} alt={`${course.name}の様子`} class="h-[42vh] w-full object-cover sm:h-[58vh]" />
+          </div>
+        )}
 
-        <section class="py-16">
-          <div class="wrap">
-            <h2 class="text-center font-mincho text-2xl text-ink sm:text-3xl">思い出を、もっと鮮やかに</h2>
-            <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-loose text-inksoft">体験を彩る追加オプションをご用意しています。<br class="hidden sm:block">ツアー予約時にお気軽にご相談ください。</p>
-            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {options.map((opt: any, i: number) => (
-                <div class="rounded-2xl border border-line bg-card p-7">
-                  <div class="flex items-center justify-between">
-                    <span class="font-fraunces italic text-3xl text-gold">0{i + 1}</span>
-                    {opt.price && <span class="rounded-full bg-sun/12 px-3 py-1 text-xs font-bold text-sun">{opt.price}</span>}
+        {/* ③ じゃらん風の詳細（時間・料金）＋ ④ 予約ボタン（LINE＋電話） */}
+        <section class="py-10 sm:py-14">
+          <div class="wrap max-w-3xl">
+            {(course.price || course.duration) && (
+              <dl class="flex flex-wrap gap-x-10 gap-y-3 rounded-2xl border border-line bg-card px-6 py-5">
+                {course.duration && (
+                  <div>
+                    <dt class="font-fraunces italic text-ember text-xs">所要時間</dt>
+                    <dd class="mt-0.5 font-mincho text-lg tracking-wide2 text-ink">{course.duration}</dd>
                   </div>
-                  <h3 class="mt-2 font-mincho text-lg text-ink">{opt.name}</h3>
-                  <p class="mt-3 text-sm leading-relaxed text-inksoft" set:html={sentences(opt.body)}></p>
-                </div>
+                )}
+                {course.price && (
+                  <div>
+                    <dt class="font-fraunces italic text-ember text-xs">料金</dt>
+                    <dd class="mt-0.5 font-mincho text-lg tracking-wide2 text-ink">{course.price}</dd>
+                  </div>
+                )}
+              </dl>
+            )}
+            {course.price && <p class="mt-2 text-xs leading-relaxed text-inksoft">{priceNote}</p>}
+
+            <p class="mt-6 text-[15px] leading-loose text-inksoft" set:html={sentences(course.detail)}></p>
+
+            <div class="mt-6 flex flex-wrap gap-2">
+              {course.highlights.map((h: string) => (
+                <span class="rounded-full border border-line bg-card px-3.5 py-1.5 text-xs font-medium text-ember">{h}</span>
               ))}
             </div>
+
+            {/* 予約ボタン：LINEの隣に電話 */}
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href={site.line} target="_blank" rel="noopener" class="btn-line flex-1 justify-center">LINEで予約・相談</a>
+              <a href={`tel:${site.tel}`} class="btn-primary flex-1 justify-center">電話で予約する</a>
+            </div>
           </div>
         </section>
 
+        {/* ⑤ ギャラリー写真 */}
+        <section class="pb-4 sm:pb-8">
+          <div class="wrap max-w-4xl">
+            <CourseGallery images={course.gallery ?? [course.image]} alt={`${course.name}の様子`} />
+          </div>
+        </section>
+
+        {/* ⑥ 集合場所等の事務的な記述 */}
+        <section class="py-10 sm:py-14">
+          <div class="wrap max-w-3xl">
+            <h2 class="font-mincho text-xl tracking-wide2 text-ink">ご利用案内</h2>
+            <dl class="mt-4 grid gap-x-8 gap-y-3 border-t border-line pt-6 sm:grid-cols-2">
+              {facilityInfo.map((it) => (
+                <div>
+                  <dt class="font-fraunces italic text-ember text-xs">{it.label}</dt>
+                  <dd class="mt-0.5 text-[13.5px] leading-relaxed text-inksoft">{it.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        {/* 前後ナビ */}
         <section class="wrap pb-20">
           <div class="flex flex-col gap-4 border-t border-line pt-8 text-sm sm:flex-row sm:items-center sm:justify-between">
             <a href={`/courses/${prev.slug}`} class="flex items-center gap-2 text-inksoft transition-colors hover:text-sun"><span>←</span><span class="font-mincho">{prev.name}</span></a>

@@ -13,7 +13,7 @@ const gallery = [...galleryPool].sort(() => Math.random() - 0.5).slice(0, 8);
 ---
 <Base>
   <!-- HERO : full-bleed -->
-  <section class="fullbleed relative flex min-h-[100svh] items-center overflow-hidden text-white">
+  <section class="fullbleed relative flex min-h-[82svh] sm:min-h-[100svh] items-center overflow-hidden text-white">
     <img src="/images/hero-sup.webp" alt="久米島の夕陽の海でSUPを楽しむ様子" class="absolute inset-0 h-full w-full object-cover" />
     <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(34,22,12,.34) 0%,rgba(34,22,12,.18) 45%,rgba(47,36,25,.66) 100%)"></div>
 
@@ -30,17 +30,17 @@ const gallery = [...galleryPool].sort(() => Math.random() - 0.5).slice(0, 8);
       </p>
       <div class="mt-9 flex flex-wrap gap-3 animate-rise" style="animation-delay:.24s">
         <a href={site.line} target="_blank" rel="noopener" class="btn-line">LINEで予約・相談</a>
-        <a href="/courses" class="btn border border-white/50 bg-white/10 text-white backdrop-blur hover:bg-white/20">プランを見る</a>
+        <a href={`tel:${site.tel}`} class="btn border border-white/50 bg-white/10 text-white backdrop-blur hover:bg-white/20">電話で予約する</a>
       </div>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section class="relative overflow-hidden py-24">
+  <section class="relative overflow-hidden py-14 sm:py-24">
     <span class="watermark left-0 top-8 text-[34vw] sm:text-[260px]">海</span>
     <div class="relative wrap grid items-center gap-14 lg:grid-cols-2">
       <div>
-        <SectionHeading eyebrow="About us" title="私たち SUNRISE / について" />
+        <SectionHeading eyebrow="About us" title="私たち <span class='text-sun'>SUNRISE</span> / について" />
         <div class="mt-6 space-y-4 text-[15px] leading-loose text-inksoft">
           <p>私たち SUNRISE は、沖縄・久米島でマリンアクティビティをご案内する体験ショップです。<br class="hidden sm:block">SUP・シュノーケルから、はての浜ツアー、釣り、トレッキングまで。<br class="hidden sm:block">久米島の海と自然を、さまざまな角度からご案内します。</p>
           <p>島を知り尽くしたガイドが、あなたの「本当の久米島」との出会いを、安全第一でお手伝いします。</p>
@@ -53,14 +53,14 @@ const gallery = [...galleryPool].sort(() => Math.random() - 0.5).slice(0, 8);
   </section>
 
   <!-- COURSES -->
-  <section class="relative overflow-hidden py-12">
+  <section class="relative overflow-hidden py-12 sm:py-16">
     <span class="watermark right-0 top-4 text-[30vw] sm:text-[220px]">遊</span>
     <div class="relative wrap">
       <div class="flex flex-wrap items-end justify-between gap-6">
         <SectionHeading eyebrow="Choose your plan" title="あなたのプランを選ぶ" />
         <a href="/courses" class="font-fraunces italic text-sun hover:underline">すべて見る →</a>
       </div>
-      <div class="mt-12 grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-8 sm:mt-12 grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {topLevel.map((item) => (item.kind === 'group'
           ? <GroupCard group={item.group} count={item.group.members.length} />
           : <CourseCard course={item.course} />))}
@@ -69,9 +69,9 @@ const gallery = [...galleryPool].sort(() => Math.random() - 0.5).slice(0, 8);
   </section>
 
   <!-- GALLERY strip : full-bleed（毎回ランダム8枚） -->
-  <section class="py-20">
+  <section class="py-14 sm:py-20">
     <div class="wrap"><SectionHeading eyebrow="Gallery" title="久米島の、最高の一日" align="center" /></div>
-    <div class="fullbleed mt-12 grid grid-cols-2 sm:grid-cols-4" data-gallery-random data-pool={JSON.stringify(galleryPool)}>
+    <div class="fullbleed mt-8 sm:mt-12 grid grid-cols-2 sm:grid-cols-4" data-gallery-random data-pool={JSON.stringify(galleryPool)}>
       {gallery.map((src) => (
         <div class="aspect-square overflow-hidden">
           <img src={src} alt="久米島での体験の様子" class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" decoding="async" />
@@ -92,13 +92,13 @@ const gallery = [...galleryPool].sort(() => Math.random() - 0.5).slice(0, 8);
   </script>
 
   <!-- OPTIONS -->
-  <section class="py-20">
+  <section class="py-14 sm:py-20">
     <div class="wrap">
       <SectionHeading eyebrow="Options" title="思い出を、もっと / 鮮やかに残す" align="center" />
       <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-loose text-inksoft">
         ツアーをさらに特別な思い出に。<br class="hidden sm:block">体験を鮮やかに彩る追加オプションをご用意しています。
       </p>
-      <div class="mt-12 grid gap-6 sm:grid-cols-2">
+      <div class="mt-8 sm:mt-12 grid gap-6 sm:grid-cols-2">
         {options.map((opt, i) => (
           <div class="rounded-2xl border border-line bg-card p-7">
             <span class="font-fraunces italic text-4xl text-gold">0{i + 1}</span>
@@ -130,7 +130,7 @@ const gallery = [...galleryPool].sort(() => Math.random() - 0.5).slice(0, 8);
   </section>
 
   <!-- CTA -->
-  <section class="wrap pt-20">
+  <section class="wrap pt-14 sm:pt-20">
     <div class="relative overflow-hidden rounded-[2rem] px-8 py-16 text-center sm:px-16" style="background:linear-gradient(135deg,#E8821C 0%,#F3B83A 100%)">
       <div class="absolute inset-0 opacity-20" aria-hidden="true" style="background-image:radial-gradient(circle at 20% 20%,#fff 0,transparent 40%),radial-gradient(circle at 80% 70%,#fff 0,transparent 35%)"></div>
       <div class="relative">

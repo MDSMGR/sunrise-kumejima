@@ -5,10 +5,9 @@ interface Props {
   align?: 'left' | 'center';
 }
 const { eyebrow, title, align = 'left' } = Astro.props;
-// タイトル内の「/」を改行可能ポイント(<wbr>)に変換する。
-// break-keep（word-break: keep-all）と組み合わせることで、日本語見出しが
-// 文節の途中で勝手に折り返さず、「/」を入れた位置でのみ改行されるようになる。
-const titleHtml = title.replace(/\s*\/\s*/g, '<wbr>');
+// タイトル内の「 / 」(前後スペースあり)を改行可能ポイント(<wbr>)に変換する。
+// 前後スペース必須にすることで、HTMLタグ内の「/」(例: </span>)を誤変換しない。
+const titleHtml = title.replace(/\s+\/\s+/g, '<wbr>');
 ---
 <div class:list={['max-w-2xl', align === 'center' && 'mx-auto text-center']}>
   {eyebrow && (
