@@ -23,11 +23,11 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       <a href={site.line} class="btn-line !px-5 !py-2.5 text-xs" target="_blank" rel="noopener">LINEで予約</a>
     </nav>
 
-    <button id="nav-toggle" class="grid h-10 w-10 place-items-center rounded-full border border-line bg-card lg:hidden"
+    <button id="nav-toggle" class="-mr-1 grid h-11 w-11 place-items-center rounded-lg text-ink transition-colors hover:bg-ink/5 lg:hidden"
             aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-nav">
-      <span class="block h-px w-5 bg-ink"></span>
-      <span class="mt-1.5 block h-px w-5 bg-ink"></span>
-      <span class="mt-1.5 block h-px w-5 bg-ink"></span>
+      <span class="block h-0.5 w-6 rounded-full bg-ink transition-transform"></span>
+      <span class="mt-1.5 block h-0.5 w-6 rounded-full bg-ink"></span>
+      <span class="mt-1.5 block h-0.5 w-6 rounded-full bg-ink"></span>
     </button>
   </div>
 

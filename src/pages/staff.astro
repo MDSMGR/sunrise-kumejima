@@ -4,10 +4,11 @@ import { sentences } from '../lib/text';
 import SunDivider from '../components/SunDivider.astro';
 import { staff, site } from '../data/site';
 import PageHero from '../components/PageHero.astro';
+import { heroPool } from '../data/media';
 const guide = staff[0];
 ---
 <Base title="スタッフ紹介" description="久米島ツアーSUNRISEの代表ガイド 越智康平。久米島の海と自然を知り尽くしたガイドが、安全第一であなたの体験をご案内します。">
-  <PageHero eyebrow="Staff" title="スタッフ紹介" watermark="人" image="/images/hero-sup.webp" alt="久米島の夕陽の海" />
+  <PageHero eyebrow="Staff" title="スタッフ紹介" watermark="人" pool={heroPool} image="/images/hero-sup.webp" alt="久米島の海" />
 
   <section class="py-20">
     <div class="wrap">
@@ -43,10 +44,10 @@ const guide = staff[0];
     <div class="wrap text-center">
       <p class="eyebrow">One day in Kumejima</p>
       <h2 class="mx-auto mt-3 max-w-2xl font-mincho text-2xl leading-relaxed tracking-wide2 text-ink sm:text-3xl">
-        海あそびのあとは、<br>系列店 Cafe &amp; Bar SUNRISE へ。
+        海あそびのあとは、<br class="hidden sm:block">系列店 Cafe &amp; Bar SUNRISE へ。
       </h2>
       <p class="mx-auto mt-5 max-w-xl text-[15px] leading-loose text-inksoft">
-        昼はマリン体験、夜は島の食卓を。<br>越智がご案内する久米島を、まるごと楽しんでください。
+        昼はマリン体験、夜は島の食卓を。<br class="hidden sm:block">越智がご案内する久米島を、まるごと楽しんでください。
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <a href="/courses" class="btn-primary">コースを見る</a>

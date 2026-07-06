@@ -28,7 +28,7 @@ const imgs = (images && images.length ? images : []).slice(0, 8);
             i === 0 ? 'border-sun ring-2 ring-sun/40' : 'border-line opacity-70 hover:opacity-100',
           ]}
         >
-          <img src={src} alt="" class="h-full w-full object-cover" loading="lazy" decoding="async" />
+          <img src={src.replace('.webp', '-t.webp')} alt="" class="h-full w-full object-cover" loading="lazy" decoding="async" />
         </button>
       ))}
     </div>

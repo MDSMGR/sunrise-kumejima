@@ -45,7 +45,7 @@ const { kind } = Astro.props as any;
         <PageHero eyebrow={group.tag} title={group.name} watermark={wm} image={group.image} alt={group.name} />
         <section class="pt-16">
           <div class="wrap max-w-3xl">
-            <p class="text-[15px] leading-loose text-inksoft">{group.summary}<br>気になるプランをタップすると、写真と詳しい内容がご覧いただけます。</p>
+            <p class="text-[15px] leading-loose text-inksoft">{group.summary}<br class="hidden sm:block">気になるプランをタップすると、写真と詳しい内容がご覧いただけます。</p>
           </div>
         </section>
         <section class="py-14">
@@ -115,7 +115,7 @@ const { kind } = Astro.props as any;
         <section class="py-16">
           <div class="wrap">
             <h2 class="text-center font-mincho text-2xl text-ink sm:text-3xl">思い出を、もっと鮮やかに</h2>
-            <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-loose text-inksoft">体験を彩る追加オプションをご用意しています。<br>ツアー予約時にお気軽にご相談ください。</p>
+            <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-loose text-inksoft">体験を彩る追加オプションをご用意しています。<br class="hidden sm:block">ツアー予約時にお気軽にご相談ください。</p>
             <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {options.map((opt: any, i: number) => (
                 <div class="rounded-2xl border border-line bg-card p-7">

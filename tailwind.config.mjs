@@ -16,9 +16,9 @@ export default {
         line: 'rgba(47,36,25,0.12)',
       },
       fontFamily: {
-        mincho: ['"Noto Serif JP"', 'serif'],
+        mincho: ['"Noto Serif JP"', '"Hiragino Mincho ProN"', '"Yu Mincho"', 'serif'],
         fraunces: ['Fraunces', 'serif'],
-        sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', '"Hiragino Kaku Gothic ProN"', '"Hiragino Sans"', '"Yu Gothic"', '"Noto Sans JP"', 'sans-serif'],
       },
       maxWidth: { content: '1080px' },
       letterSpacing: { wide2: '0.1em', wide3: '0.18em' },

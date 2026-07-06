@@ -3,13 +3,21 @@ interface Props {
   eyebrow?: string;
   title: string;
   watermark?: string;
-  image: string;
+  image?: string;
+  pool?: string[];
   alt?: string;
 }
-const { eyebrow, title, watermark, image, alt = '' } = Astro.props;
+const { eyebrow, title, watermark, image, pool, alt = '' } = Astro.props;
+const list = (pool && pool.length) ? pool : (image ? [image] : []);
+// SSR/no-JS用にビルド時ランダム、クライアントで毎回ランダム化
+const initial = list.length ? list[Math.floor(Math.random() * list.length)] : image;
+const poolAttr = list.length > 1 ? JSON.stringify(list) : '';
 ---
 <section class="fullbleed relative flex min-h-[44vh] items-end overflow-hidden text-white sm:min-h-[52vh]">
-  <img src={image} alt={alt} class="absolute inset-0 h-full w-full object-cover" />
+  <img data-hero src={initial} data-pool={poolAttr} alt={alt} class="absolute inset-0 h-full w-full object-cover" />
+  {poolAttr && (
+    <script is:inline set:html={`(function(){try{var i=document.currentScript.previousElementSibling;var p=JSON.parse(i.getAttribute('data-pool'));if(p&&p.length){var s=p[Math.floor(Math.random()*p.length)];if(s)i.src=s;}}catch(e){}})();`}></script>
+  )}
   <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(34,22,12,.28) 0%,rgba(34,22,12,.12) 40%,rgba(47,36,25,.72) 100%)"></div>
   {watermark && (
     <span class="watermark watermark-light right-2 top-1/2 -translate-y-1/2 text-[19vw] sm:right-12 sm:text-[180px]">{watermark}</span>

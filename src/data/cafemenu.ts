@@ -32,7 +32,7 @@ export const cafeMenu: CafeCategory[] = [
         body: 'スパイス香る特製ミートに特製ソース、新鮮な野菜とたっぷりチーズをのせた、サンライズおすすめの1皿。' },
       { name: 'ガパオライス', en: 'Gapao Rice', price: '¥1,500', image: `${IMG}/gapao-rice.webp`,
         body: '島野菜の甘みを特製ソースで炒めたガパオ。黄身をからめれば、食欲をそそる1皿です。' },
-      { name: 'キムトマトそうめん', en: 'Kimchi Tomato Somen', price: '¥1,500',
+      { name: 'キムトマトそうめん', en: 'Kimchi Tomato Somen', price: '¥1,500', image: `${IMG}/kimchi-tomato-somen.webp`,
         body: '久米島産もずくと、キムチ・トマトの旨みがやみつきに。海遊びの後にぴったりの、さっぱり冷たいそうめん。' },
     ],
   },

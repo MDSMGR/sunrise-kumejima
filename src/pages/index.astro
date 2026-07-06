@@ -7,17 +7,9 @@ import CourseCard from '../components/CourseCard.astro';
 import GroupCard from '../components/GroupCard.astro';
 import { topLevel, options } from '../data/courses';
 import { site } from '../data/site';
+import { galleryPool } from '../data/media';
 
-const gallery = [
-  '/images/courses/course-sup.webp',
-  '/images/courses/course-hatenohama.webp',
-  '/images/courses/course-snorkel.webp',
-  '/images/courses/course-fishing.webp',
-  '/images/hero-sup.webp',
-  '/images/courses/course-trekking.webp',
-  '/images/courses/course-stargazing.webp',
-  '/images/gallery-view.webp',
-];
+const gallery = [...galleryPool].sort(() => Math.random() - 0.5).slice(0, 8);
 ---
 <Base>
   <!-- HERO : full-bleed -->
@@ -31,10 +23,10 @@ const gallery = [
         <span class="font-mincho text-[13px] tracking-[0.18em] text-gold sm:text-base" style="text-shadow:0 1px 8px rgba(34,22,12,.55)">Okinawa, Kumejima</span>
       </p>
       <h1 class="mt-4 h-hero text-[34px] leading-[1.32] text-white sm:text-[64px] sm:leading-[1.3] animate-rise" style="animation-delay:.08s">
-        あなたは、本当の海を<br>知っていますか？
+        あなたは、本当の海を<br class="hidden sm:block">知っていますか？
       </h1>
       <p class="mt-6 max-w-xl text-[15.5px] leading-loose text-white/90 animate-rise" style="animation-delay:.16s">
-        透明度も、夕陽も、静けさも。<br>久米島の海には、まだ知らないあなたの海があります。
+        透明度も、夕陽も、静けさも。<br class="hidden sm:block">久米島の海には、まだ知らないあなたの海があります。
       </p>
       <div class="mt-9 flex flex-wrap gap-3 animate-rise" style="animation-delay:.24s">
         <a href={site.line} target="_blank" rel="noopener" class="btn-line">LINEで予約・相談</a>
@@ -50,8 +42,8 @@ const gallery = [
       <div>
         <SectionHeading eyebrow="About us" title="私たち SUNRISE について" />
         <div class="mt-6 space-y-4 text-[15px] leading-loose text-inksoft">
-          <p>私たち SUNRISE は、沖縄・久米島でマリンアクティビティをご案内する体験ショップです。<br>SUP・シュノーケルから、はての浜ツアー、釣り、トレッキングまで。<br>久米島の海と自然を、さまざまな角度からご案内します。</p>
-          <p>島を知り尽くしたガイドが、あなたの「本当の久米島」との出会いを、安全第一でお手伝いします。<br>（※会社紹介文は仮です。正式な文面に差し替えてください）</p>
+          <p>私たち SUNRISE は、沖縄・久米島でマリンアクティビティをご案内する体験ショップです。<br class="hidden sm:block">SUP・シュノーケルから、はての浜ツアー、釣り、トレッキングまで。<br class="hidden sm:block">久米島の海と自然を、さまざまな角度からご案内します。</p>
+          <p>島を知り尽くしたガイドが、あなたの「本当の久米島」との出会いを、安全第一でお手伝いします。<br class="hidden sm:block">（※会社紹介文は仮です。正式な文面に差し替えてください）</p>
         </div>
       </div>
       <div class="hidden overflow-hidden rounded-3xl border border-line shadow-soft lg:block">
@@ -76,24 +68,35 @@ const gallery = [
     </div>
   </section>
 
-  <!-- GALLERY strip : full-bleed -->
+  <!-- GALLERY strip : full-bleed（毎回ランダム8枚） -->
   <section class="py-20">
     <div class="wrap"><SectionHeading eyebrow="Gallery" title="久米島の、最高の一日" align="center" /></div>
-    <div class="fullbleed mt-12 grid grid-cols-2 sm:grid-cols-4">
+    <div class="fullbleed mt-12 grid grid-cols-2 sm:grid-cols-4" data-gallery-random data-pool={JSON.stringify(galleryPool)}>
       {gallery.map((src) => (
         <div class="aspect-square overflow-hidden">
-          <img src={src} alt="久米島での体験の様子" class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+          <img src={src} alt="久米島での体験の様子" class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" decoding="async" />
         </div>
       ))}
     </div>
   </section>
+  <script is:inline>
+    (function () {
+      var box = document.querySelector('[data-gallery-random]');
+      if (!box) return;
+      var pool;
+      try { pool = JSON.parse(box.getAttribute('data-pool') || '[]'); } catch (e) { return; }
+      for (var i = pool.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = pool[i]; pool[i] = pool[j]; pool[j] = t; }
+      var imgs = box.querySelectorAll('img');
+      imgs.forEach(function (im, idx) { if (pool[idx]) im.src = pool[idx]; });
+    })();
+  </script>
 
   <!-- OPTIONS -->
   <section class="py-20">
     <div class="wrap">
       <SectionHeading eyebrow="Options" title="思い出を、もっと鮮やかに残す" align="center" />
       <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-loose text-inksoft">
-        ツアーをさらに特別な思い出に。<br>体験を鮮やかに彩る追加オプションをご用意しています。
+        ツアーをさらに特別な思い出に。<br class="hidden sm:block">体験を鮮やかに彩る追加オプションをご用意しています。
       </p>
       <div class="mt-12 grid gap-6 sm:grid-cols-2">
         {options.map((opt, i) => (
@@ -119,7 +122,7 @@ const gallery = [
         <p class="font-fraunces italic text-gold text-lg">Sister shop</p>
         <h2 class="mt-3 h-display text-3xl text-paper sm:text-4xl">Cafe &amp; Bar SUNRISE</h2>
         <p class="mt-5 text-[15px] leading-loose text-paper/80">
-          海あそびの余韻を、もう一杯。<br>タコライスや紅芋ブリュレ、車海老の塩焼きなど、<br>島の味をテラスでゆっくり楽しめます。
+          海あそびの余韻を、もう一杯。<br class="hidden sm:block">タコライスや紅芋ブリュレ、車海老の塩焼きなど、<br class="hidden sm:block">島の味をテラスでゆっくり楽しめます。
         </p>
         <a href="/cafe" class="btn-primary mt-7">Cafe &amp; Bar を見る</a>
       </div>
@@ -132,7 +135,7 @@ const gallery = [
       <div class="absolute inset-0 opacity-20" aria-hidden="true" style="background-image:radial-gradient(circle at 20% 20%,#fff 0,transparent 40%),radial-gradient(circle at 80% 70%,#fff 0,transparent 35%)"></div>
       <div class="relative">
         <h2 class="h-display text-3xl text-white sm:text-4xl">久米島の海で、待っています</h2>
-        <p class="mx-auto mt-4 max-w-md text-white/90">ご予約・ご相談は LINE またはお問い合わせフォームから。<br>空き状況をすぐにご案内します。</p>
+        <p class="mx-auto mt-4 max-w-md text-white/90">ご予約・ご相談は LINE またはお問い合わせフォームから。<br class="hidden sm:block">空き状況をすぐにご案内します。</p>
         <div class="mt-8 flex flex-wrap justify-center gap-3">
           <a href={site.line} target="_blank" rel="noopener" class="btn bg-white text-sun shadow-lift hover:-translate-y-0.5">LINEで予約・相談</a>
           <a href="/contact" class="btn border border-white/60 text-white hover:bg-white/10">フォームで問い合わせ</a>
