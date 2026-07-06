@@ -3,7 +3,7 @@ import { nav, site } from '../data/site';
 const path = Astro.url.pathname;
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
-<header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-all duration-300" data-state="top">
+<header id="site-header" class="fixed inset-x-0 top-0 z-50" data-state="top">
   <div class="wrap flex items-center justify-between py-3.5">
     <a href="/" class="group flex items-center gap-2.5" aria-label={`${site.name} ホーム`}>
       <img src="/logo-sunrise-t.png" alt="久米島ツアーSUNRISE" class="h-10 w-auto" width="479" height="452" />
@@ -23,7 +23,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       <a href={site.line} class="btn-line !px-5 !py-2.5 text-xs" target="_blank" rel="noopener">LINEで予約</a>
     </nav>
 
-    <button id="nav-toggle" class="grid h-10 w-10 place-items-center rounded-full border border-line bg-card/70 backdrop-blur lg:hidden"
+    <button id="nav-toggle" class="grid h-10 w-10 place-items-center rounded-full border border-line bg-card lg:hidden"
             aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-nav">
       <span class="block h-px w-5 bg-ink"></span>
       <span class="mt-1.5 block h-px w-5 bg-ink"></span>
@@ -59,10 +59,10 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 </script>
 
 <style>
-  /* 常にクリーム色（開いた瞬間から表示） */
+  /* 常にクリーム色（開いた瞬間から表示）。
+     モバイルのスクロール描画負荷を避けるため backdrop-filter は使わず不透明寄りに */
   #site-header {
-    background: rgba(247,239,219,0.92);
-    backdrop-filter: blur(12px);
+    background: rgba(247,239,219,0.97);
     box-shadow: 0 1px 0 rgba(47,36,25,0.08);
   }
 </style>

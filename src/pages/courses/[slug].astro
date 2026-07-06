@@ -4,7 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 import CourseGallery from '../../components/CourseGallery.astro';
 import CourseCard from '../../components/CourseCard.astro';
 import SunDivider from '../../components/SunDivider.astro';
-import { courses, groups, options, priceNote } from '../../data/courses';
+import { courses, groups, options, priceNote, facilityInfo } from '../../data/courses';
 import { site } from '../../data/site';
 import { sentences } from '../../lib/text';
 
@@ -95,6 +95,14 @@ const { kind } = Astro.props as any;
                 ))}
               </div>
               <a href={site.line} target="_blank" rel="noopener" class="btn-line mt-9">このプランを予約・相談</a>
+              <dl class="mt-9 grid gap-x-8 gap-y-3 border-t border-line pt-6 sm:grid-cols-2">
+                {facilityInfo.map((it) => (
+                  <div>
+                    <dt class="font-fraunces italic text-ember text-xs">{it.label}</dt>
+                    <dd class="mt-0.5 text-[13.5px] leading-relaxed text-inksoft">{it.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
             <div>
               <CourseGallery images={course.gallery ?? [course.image]} alt={`${course.name}の様子`} />

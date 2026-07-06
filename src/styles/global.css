@@ -23,7 +23,7 @@ body {
   background-image:
     radial-gradient(110% 80% at 92% -12%, rgba(243,184,58,0.16), transparent 52%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  background-attachment: fixed, scroll;
+  background-attachment: scroll, scroll;
 }
 
 ::selection { background: theme('colors.sun'); color: #fff; }
@@ -88,7 +88,7 @@ textarea:focus-visible, select:focus-visible {
     letter-spacing: 0.04em;
   }
   .btn-primary { @apply btn bg-sun text-white shadow-soft hover:-translate-y-0.5 hover:shadow-lift; }
-  .btn-ghost { @apply btn border border-line bg-card/70 text-ink backdrop-blur hover:bg-card; }
+  .btn-ghost { @apply btn border border-line bg-card text-ink hover:bg-cream; }
   .btn-line { @apply btn bg-[#06C755] text-white shadow-soft hover:-translate-y-0.5 hover:shadow-lift; }
 
   /* 実写前のプレースホルダ兼デザイン要素（暖色デュオトーン） */
