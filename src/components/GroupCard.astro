@@ -17,23 +17,29 @@ const bodyId = `grp-${group.slug}`;
 ---
 <div class="flex flex-col overflow-hidden rounded-2xl border-2 border-sun/35 bg-card transition-shadow duration-300 hover:shadow-soft">
   <button type="button" data-group-acc aria-expanded="false" aria-controls={bodyId}
-          class="group flex flex-1 flex-col text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sun">
-    <div class="relative h-44 sm:h-52 overflow-hidden">
+          class="group flex flex-col text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sun">
+    {/* ① ツアー名（独立ヘッダー） */}
+    <div class="px-5 pt-5 sm:px-6 sm:pt-6">
+      <h3 class="font-mincho text-xl tracking-wide2 text-ink line-clamp-2">{group.name}</h3>
+      <p class="mt-1 font-mincho text-sm text-ember">{group.tagline}</p>
+    </div>
+
+    {/* ② 写真（文字なし・クリーン） */}
+    <div class="relative mt-4 h-44 sm:h-52 overflow-hidden">
       <img src={group.image} alt={group.name}
            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
            style={group.imagePos ? `object-position:${group.imagePos}` : undefined} loading="lazy" />
-      <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 40%,rgba(47,36,25,.45))"></div>
       <span class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-sun px-3 py-1 text-[11px] font-bold text-white shadow-soft">
         <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         {n}プラン
       </span>
-      <p class="absolute bottom-4 left-5 right-5 font-mincho text-white text-[15px] tracking-[0.06em] drop-shadow">{group.tagline}</p>
     </div>
-    <div class="flex flex-1 flex-col p-5 sm:p-6 min-h-0 sm:min-h-[212px]">
-      <h3 class="font-mincho text-xl tracking-wide2 text-ink line-clamp-2">{group.name}</h3>
-      <p class="mt-2 text-sm leading-relaxed text-inksoft line-clamp-2">{group.summary}</p>
+
+    {/* ③ 説明 + 料金 + トグル */}
+    <div class="flex flex-1 flex-col p-5 sm:p-6">
+      <p class="text-sm leading-relaxed text-inksoft line-clamp-2">{group.summary}</p>
       {fromPrice && <p class="mt-2 font-mincho text-[15px] text-ink">¥{fromPrice.toLocaleString()}〜</p>}
-      <span class="mt-auto pt-4 inline-flex items-center gap-2 self-start rounded-full bg-sun/12 px-4 py-2 text-sm font-medium text-sun">
+      <span class="mt-4 inline-flex items-center gap-2 self-start rounded-full bg-sun/12 px-4 py-2 text-sm font-medium text-sun">
         <span data-acc-label>{n}つのプランから選ぶ</span>
         <svg data-acc-chev class="h-4 w-4 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
       </span>
