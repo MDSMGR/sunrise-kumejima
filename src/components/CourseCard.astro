@@ -20,7 +20,7 @@ const tone: Record<Course['duotone'], string> = {
         一番人気
       </span>
     )}
-    <h3 class:list={['font-mincho text-xl tracking-wide2 text-ink line-clamp-2', course.popular && 'mt-1.5']}>{course.name}</h3>
+    <h3 class:list={['font-mincho text-2xl tracking-wide2 text-ink line-clamp-2 sm:text-xl', course.popular && 'mt-1.5']}>{course.name}</h3>
     <p class="mt-1 font-mincho text-sm text-ember">{course.tagline}</p>
   </div>
 

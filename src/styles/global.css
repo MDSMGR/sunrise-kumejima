@@ -100,3 +100,7 @@ textarea:focus-visible, select:focus-visible {
       linear-gradient(135deg, #E8821C, #BF5018);
   }
 }
+
+/* 横スワイプ カルーセル：スクロールバー非表示 */
+.course-swipe { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.course-swipe::-webkit-scrollbar { display: none; }
