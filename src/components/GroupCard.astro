@@ -1,6 +1,7 @@
 ---
 import type { Group } from '../data/courses';
 import { courses } from '../data/courses';
+import PlanHeading from './PlanHeading.astro';
 interface Props { group: Group; count?: number }
 const { group, count } = Astro.props;
 const n = count ?? group.members.length;
@@ -16,13 +17,7 @@ const bodyId = `grp-${group.slug}`;
 ---
 {/* ===== モバイル：ツアー名を枠の外に出し、すぐ1画面=1カードの横スワイプ ===== */}
 <div class="sm:hidden">
-  <div class="mb-3">
-    <div class="flex items-center gap-2.5">
-      <h3 class="font-mincho text-2xl tracking-wide2 text-ink">{group.name}</h3>
-      <span class="flex-none rounded-full bg-sun/12 px-2.5 py-0.5 text-[11px] font-medium text-sun">{n}プラン</span>
-    </div>
-    <p class="mt-1 font-mincho text-ember">{group.tagline}</p>
-  </div>
+  <PlanHeading tag={group.tag} name={group.name} tagline={group.tagline} count={n} />
 
   <p class="mb-2 flex items-center gap-1.5 text-[11px] tracking-wide2 text-inksoft">
     <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-4 5 4 5M16 7l4 5-4 5"/></svg>

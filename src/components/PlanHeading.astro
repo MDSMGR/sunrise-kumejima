@@ -1,0 +1,31 @@
+---
+// スマホ用の統一プラン見出し（ツアー名をカードの外に、見やすく表示）
+interface Props {
+  tag?: string;
+  name: string;
+  tagline?: string;
+  count?: number;      // グループのプラン数（あれば「Nプラン」バッジ）
+  popular?: boolean;   // 「一番人気」バッジ
+}
+const { tag, name, tagline, count, popular } = Astro.props;
+---
+<div class="mb-3">
+  <div class="flex flex-wrap items-center gap-2">
+    {popular && (
+      <span class="inline-flex items-center gap-1 rounded-full bg-sun px-2.5 py-0.5 text-[10px] font-bold text-white shadow-soft">
+        <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.1 6.6.8-4.9 4.5 1.3 6.5L12 17.8 5.9 20.4l1.3-6.5L2.3 8.9l6.6-.8z"/></svg>
+        一番人気
+      </span>
+    )}
+    {tag && (
+      <span class="flex items-center gap-2 font-fraunces text-[12px] italic tracking-[0.08em] text-ember">
+        <span class="h-px w-5 bg-sun/70"></span>{tag}
+      </span>
+    )}
+    {count && (
+      <span class="rounded-full bg-sun/12 px-2.5 py-0.5 text-[11px] font-medium text-sun">{count}プラン</span>
+    )}
+  </div>
+  <h3 class="mt-1.5 font-mincho text-[26px] leading-[1.25] tracking-wide2 text-ink">{name}</h3>
+  {tagline && <p class="mt-1 font-mincho text-[15px] text-ember">{tagline}</p>}
+</div>
