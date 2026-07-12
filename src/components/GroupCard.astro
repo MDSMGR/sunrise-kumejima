@@ -7,80 +7,85 @@ const n = count ?? group.members.length;
 const members = group.members
   .map((slug) => courses.find((c) => c.slug === slug))
   .filter((c): c is NonNullable<typeof c> => Boolean(c));
-// グループ内の最安値（カード面に「¥◯◯〜」を表示するため）
-// price 例: '¥8,000 / 1名' → 先頭の「¥金額」部分だけを取り出す（「/ 1名」を拾わない）
+// グループ内の最安値（PCカード面の「¥◯◯〜」表示用）。price 例: '¥8,000 / 1名'
 const prices = members
   .map((m) => Number((m.price?.match(/¥([\d,]+)/)?.[1] ?? '').replace(/,/g, '')))
-  .filter((n) => n > 0);
+  .filter((v) => v > 0);
 const fromPrice = prices.length ? Math.min(...prices) : null;
 const bodyId = `grp-${group.slug}`;
 ---
-<div class="flex flex-col overflow-hidden rounded-2xl border-2 border-sun/35 bg-card transition-shadow duration-300 hover:shadow-soft">
-  <button type="button" data-group-acc aria-expanded="false" aria-controls={bodyId}
-          class="group flex flex-col text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sun">
-    {/* ① ツアー名（独立ヘッダー） */}
-    <div class="px-5 pt-5 sm:px-6 sm:pt-6">
-      <h3 class="font-mincho text-2xl tracking-wide2 text-ink line-clamp-2 sm:text-xl">{group.name}</h3>
-      <p class="mt-1 font-mincho text-sm text-ember">{group.tagline}</p>
+{/* ===== モバイル：ツアー名を枠の外に出し、すぐ横スワイプ カルーセル ===== */}
+<div class="sm:hidden">
+  <div class="mb-3">
+    <div class="flex items-center gap-2.5">
+      <h3 class="font-mincho text-2xl tracking-wide2 text-ink">{group.name}</h3>
+      <span class="flex-none rounded-full bg-sun/12 px-2.5 py-0.5 text-[11px] font-medium text-sun">{n}プラン</span>
     </div>
+    <p class="mt-1 font-mincho text-ember">{group.tagline}</p>
+  </div>
 
-    {/* ② 写真（文字なし・クリーン） */}
-    <div class="relative mt-4 h-44 sm:h-52 overflow-hidden">
-      <img src={group.image} alt={group.name}
-           class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-           style={group.imagePos ? `object-position:${group.imagePos}` : undefined} loading="lazy" />
-      <span class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-sun px-3 py-1 text-[11px] font-bold text-white shadow-soft">
-        <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        {n}プラン
-      </span>
-    </div>
+  <p class="mb-2 flex items-center gap-1 text-[11px] tracking-wide2 text-inksoft">
+    <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-4 5 4 5M16 7l4 5-4 5"/></svg>
+    スワイプして{n}つのプランを見る
+  </p>
 
-    {/* ③ 説明 + 料金 + トグル */}
-    <div class="flex flex-1 flex-col p-5 sm:p-6">
-      <p class="text-sm leading-relaxed text-inksoft line-clamp-2">{group.summary}</p>
-      {fromPrice && <p class="mt-2 font-mincho text-[15px] text-ink">¥{fromPrice.toLocaleString()}〜</p>}
-      <span class="mt-4 inline-flex items-center gap-2 self-start rounded-full bg-sun/12 px-4 py-2 text-sm font-medium text-sun">
-        <span data-acc-label>{n}つのプランから選ぶ</span>
-        <svg data-acc-chev class="h-4 w-4 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-      </span>
-    </div>
-  </button>
-
-  <div id={bodyId} data-group-body style="display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease;">
-    <div class="overflow-hidden">
-      <div class="px-4 pb-5 pt-2">
-        {/* モバイル：写真つき横スワイプ カルーセル */}
-        <p class="mb-2 flex items-center gap-1 text-[11px] tracking-wide2 text-inksoft sm:hidden">
-          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-4 5 4 5M16 7l4 5-4 5"/></svg>
-          スワイプして他のプランを見る
-        </p>
-        <div class="course-swipe -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 sm:hidden">
-          {members.map((m) => (
-            <a href={`/courses/${m.slug}`}
-               class:list={['snap-start shrink-0 basis-[78%] overflow-hidden rounded-xl bg-card', m.popular ? 'border-2 border-sun' : 'border border-line']}>
-              <div class="relative h-32 overflow-hidden">
-                <img src={m.image} alt={m.name} class="h-full w-full object-cover" loading="lazy" />
-                {m.popular && (
-                  <span class="absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-sun px-2.5 py-0.5 text-[10px] font-bold text-white shadow-soft">
-                    <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.1 6.6.8-4.9 4.5 1.3 6.5L12 17.8 5.9 20.4l1.3-6.5L2.3 8.9l6.6-.8z"/></svg>
-                    一番人気
-                  </span>
-                )}
-              </div>
-              <div class="p-3">
-                <span class="block font-mincho text-[15px] leading-snug text-ink line-clamp-2">{m.name}</span>
-                <span class="mt-1 block truncate text-xs text-inksoft">{m.tagline}</span>
-                {(m.price || m.duration) && (
-                  <span class="mt-1 block text-[11px] text-ember">{[m.duration, m.price].filter(Boolean).join(' ・ ')}</span>
-                )}
-                <span class="mt-1.5 inline-flex items-center gap-1 text-xs text-sun">詳細へ →</span>
-              </div>
-            </a>
-          ))}
+  <div class="course-swipe -mx-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-2">
+    {members.map((m) => (
+      <a href={`/courses/${m.slug}`}
+         class:list={['snap-start shrink-0 basis-[80%] overflow-hidden rounded-2xl bg-card', m.popular ? 'border-2 border-sun' : 'border border-line']}>
+        <div class="relative h-36 overflow-hidden">
+          <img src={m.image} alt={m.name} class="h-full w-full object-cover" loading="lazy" />
+          {m.popular && (
+            <span class="absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-sun px-2.5 py-0.5 text-[10px] font-bold text-white shadow-soft">
+              <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.1 6.6.8-4.9 4.5 1.3 6.5L12 17.8 5.9 20.4l1.3-6.5L2.3 8.9l6.6-.8z"/></svg>
+              一番人気
+            </span>
+          )}
         </div>
+        <div class="p-3.5">
+          <span class="block font-mincho text-[15px] leading-snug text-ink line-clamp-2">{m.name}</span>
+          <span class="mt-1 block truncate text-xs text-inksoft">{m.tagline}</span>
+          {(m.price || m.duration) && (
+            <span class="mt-1.5 block text-[11px] text-ember">{[m.duration, m.price].filter(Boolean).join(' ・ ')}</span>
+          )}
+          <span class="mt-2 inline-flex items-center gap-1 text-xs text-sun">詳細へ →</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
 
-        {/* デスクトップ：従来の縦リスト */}
-        <div class="hidden gap-2 sm:flex sm:flex-col">
+{/* ===== デスクトップ：従来のカード + アコーディオン（縦リスト） ===== */}
+<div class="hidden sm:block">
+  <div class="flex flex-col overflow-hidden rounded-2xl border-2 border-sun/35 bg-card transition-shadow duration-300 hover:shadow-soft">
+    <button type="button" data-group-acc aria-expanded="false" aria-controls={bodyId}
+            class="group flex flex-col text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-sun">
+      <div class="px-6 pt-6">
+        <h3 class="font-mincho text-xl tracking-wide2 text-ink line-clamp-2">{group.name}</h3>
+        <p class="mt-1 font-mincho text-sm text-ember">{group.tagline}</p>
+      </div>
+      <div class="relative mt-4 h-52 overflow-hidden">
+        <img src={group.image} alt={group.name}
+             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+             style={group.imagePos ? `object-position:${group.imagePos}` : undefined} loading="lazy" />
+        <span class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-sun px-3 py-1 text-[11px] font-bold text-white shadow-soft">
+          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          {n}プラン
+        </span>
+      </div>
+      <div class="flex flex-col p-6">
+        <p class="text-sm leading-relaxed text-inksoft line-clamp-2">{group.summary}</p>
+        {fromPrice && <p class="mt-2 font-mincho text-[15px] text-ink">¥{fromPrice.toLocaleString()}〜</p>}
+        <span class="mt-4 inline-flex items-center gap-2 self-start rounded-full bg-sun/12 px-4 py-2 text-sm font-medium text-sun">
+          <span data-acc-label>{n}つのプランから選ぶ</span>
+          <svg data-acc-chev class="h-4 w-4 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </div>
+    </button>
+
+    <div id={bodyId} data-group-body style="display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease;">
+      <div class="overflow-hidden">
+        <div class="flex flex-col gap-2 px-4 pb-5 pt-1">
           {members.map((m) => (
             <a href={`/courses/${m.slug}`}
                class:list={[
@@ -105,12 +110,11 @@ const bodyId = `grp-${group.slug}`;
               <span class="flex-none whitespace-nowrap text-xs text-sun">詳細へ →</span>
             </a>
           ))}
+          <a href={`/courses/${group.slug}`}
+             class="mt-1 inline-flex self-start items-center gap-1 font-fraunces italic text-sm text-inksoft transition-colors hover:text-sun">
+            {group.name}のページを見る →
+          </a>
         </div>
-
-        <a href={`/courses/${group.slug}`}
-           class="mt-3 inline-flex self-start items-center gap-1 font-fraunces italic text-sm text-inksoft transition-colors hover:text-sun">
-          {group.name}のページを見る →
-        </a>
       </div>
     </div>
   </div>
