@@ -13,6 +13,7 @@ export type Course = {
   price?: string;       // 料金（例: '¥20,000 / 1名'）
   duration?: string;    // 所要時間（例: '約2時間'）
   popular?: boolean;    // 「一番人気」として目立たせる
+  imagePos?: string;    // カード画像の表示位置（object-position）。顔切れ防止など
 };
 
 export type Group = {
@@ -81,7 +82,7 @@ export const courses: Course[] = [
   { slug: 'sup-sunset', group: 'sup', name: 'サンセットSUP｜夕焼けの海クルーズ', tag: 'SUP', tagline: '夕陽に染まる海を漕ぐ',
     summary: '刻々と色を変える夕景の海を漕ぐ、ロマンチックなサンセットSUP。',
     detail: '空と海がオレンジから茜色へと染まっていく時間に漕ぎ出すSUP。刻一刻と表情を変える夕景のなかを、波の音だけを聞きながらゆったりと進みます。一日の終わりを久米島の夕陽とともに締めくくる、カップルや女性同士のご旅行にも人気のロマンチックなプランです。',
-    highlights: ['夕方開催', 'サンセット', 'カップルに人気', '90分'], duration: '90分', price: '¥9,000 / 1名', popular: true, duotone: 'gold', image: '/images/courses/sup-sunset-1.webp',
+    highlights: ['夕方開催', 'サンセット', 'カップルに人気', '90分'], duration: '90分', price: '¥9,000 / 1名', popular: true, duotone: 'gold', image: '/images/courses/sup-sunset-1.webp', imagePos: 'center 60%',
     gallery: ['/images/courses/sup-sunset-1.webp', '/images/courses/sup-sunset-2.webp', '/images/courses/sup-sunset-3.webp', '/images/courses/sup-sunset-4.webp', '/images/courses/sup-sunset-5.webp', '/images/courses/sup-sunset-6.webp', '/images/courses/sup-sunset-7.webp', '/images/courses/sup-sunset-8.webp'] },
 
   // ── 無人島・はての浜 ──
@@ -137,7 +138,7 @@ export const courses: Course[] = [
   { slug: 'yugyosen-solo', group: 'yugyosen', name: '沖釣りフィッシング体験ツアー', tag: 'FISHING', tagline: '漁師ガイドと、本気の海釣り',
     summary: '久米島沖で本格的な船釣りに挑戦。漁師ガイドが同行。',
     detail: '漁師の経験を持つガイドが、その日の潮の流れや天候にあわせてベストな釣り場へご案内。久米島近海の五目釣りから、大物を狙う外洋の釣りまで、本格的な船釣りを体験できます。道具のレンタルもあるので手ぶらでOK。釣った魚は、持ち帰りやお店での調理のご相談も可能です。',
-    highlights: ['漁師ガイド同行', '本格船釣り', '道具レンタルあり', '4時間'], duration: '4時間', price: '¥20,000 / 1名', popular: true, duotone: 'deep', image: '/images/courses/fish-1.webp',
+    highlights: ['漁師ガイド同行', '本格船釣り', '道具レンタルあり', '4時間'], duration: '4時間', price: '¥20,000 / 1名', popular: true, duotone: 'deep', image: '/images/courses/fish-1.webp', imagePos: 'center 22%',
     gallery: ['/images/courses/fish-1.webp', '/images/courses/fish-6.webp', '/images/courses/fish-4.webp', '/images/courses/fish-8.webp', '/images/courses/fish-2.webp', '/images/courses/fish-9.webp', '/images/courses/fish-5.webp', '/images/courses/fish-10.webp'] },
   { slug: 'yugyosen-charter', group: 'yugyosen', name: '貸切チャーターフィッシングツアー', tag: 'FISHING', tagline: '船を貸し切って、仲間と',
     summary: '仲間や家族だけで楽しむ、完全貸切の船釣りプラン。',
@@ -147,7 +148,7 @@ export const courses: Course[] = [
   { slug: 'okazuri', name: '気軽に楽しむ陸釣り体験ツアー', tag: 'FISHING', tagline: '気軽に、岸から一匹',
     summary: '船に乗らず、岸から手軽に。初心者やお子さま連れにも。',
     detail: '船に乗らず、岸から気軽に楽しめる釣り体験。船が苦手な方や、小さなお子さま連れのご家族にもぴったりです。難しい道具は不要、ガイドが釣り方をやさしくレクチャーします。何が釣れるかは久米島の海しだい。のんびりと「島時間」を楽しみましょう。',
-    highlights: ['初心者・家族歓迎', '船が苦手でも', '2時間'], duration: '2時間', price: '¥6,000 / 1名', duotone: 'shallow', image: '/images/courses/fish-3.webp',
+    highlights: ['初心者・家族歓迎', '船が苦手でも', '2時間'], duration: '2時間', price: '¥6,000 / 1名', duotone: 'shallow', image: '/images/courses/fish-3.webp', imagePos: 'center 45%',
     gallery: ['/images/courses/fish-3.webp', '/images/courses/fish-1.webp', '/images/courses/fish-2.webp', '/images/courses/fish-8.webp', '/images/courses/fish-9.webp', '/images/courses/okazuri-4.webp', '/images/courses/okazuri-2.webp', '/images/courses/okazuri-3.webp'] },
   { slug: 'full-day', name: '1日満喫ツアー', tag: 'FULL DAY', tagline: '朝から夜まで、久米島を丸ごと',
     summary: '人気の体験を1日に凝縮。10月〜3月・1日1組限定の特別プラン。',

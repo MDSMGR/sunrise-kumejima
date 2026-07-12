@@ -27,7 +27,7 @@ const tone: Record<Course['duotone'], string> = {
   {/* ② 写真（文字なし・クリーン） */}
   <div class="relative mt-4 h-44 sm:h-52 overflow-hidden">
     {course.image
-      ? <img src={course.image} alt={`${course.name}の様子`} class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+      ? <img src={course.image} alt={`${course.name}の様子`} class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" style={`object-position:${course.imagePos ?? 'center 40%'}`} loading="lazy" />
       : <div class="absolute inset-0" style={`background-image:${tone[course.duotone]}`}></div>}
   </div>
 

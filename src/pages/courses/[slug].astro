@@ -74,7 +74,7 @@ const { kind } = Astro.props as any;
         {/* ② 1枚のヒーロー写真（テキストなし） */}
         {heroImg && (
           <div class="fullbleed relative overflow-hidden">
-            <img src={heroImg} alt={`${course.name}の様子`} class="h-[42vh] w-full object-cover sm:h-[58vh]" />
+            <img src={heroImg} alt={`${course.name}の様子`} class="h-[42vh] w-full object-cover sm:h-[58vh]" style={course.imagePos ? `object-position:${course.imagePos}` : undefined} />
           </div>
         )}
 
