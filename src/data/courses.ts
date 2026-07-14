@@ -159,7 +159,8 @@ export const courses: Course[] = [
 ];
 
 // トップレベルの並び順（グループ slug or 単体コース slug）
-const ORDER = ['sup', 'hama', 'trekking', 'snorkel', 'stargazing', 'cruising', 'yugyosen', 'okazuri', 'full-day'];
+// 表示順: 複数プランのグループを先に（SUP→はての浜→トレッキング→遊漁船）、単体プランを後に
+const ORDER = ['sup', 'hama', 'trekking', 'yugyosen', 'snorkel', 'stargazing', 'cruising', 'okazuri', 'full-day'];
 
 export type MenuItem =
   | { kind: 'group'; group: Group }

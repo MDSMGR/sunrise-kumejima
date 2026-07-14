@@ -4,49 +4,37 @@ import { sentences } from '../lib/text';
 import { spots } from '../data/site';
 import PageHero from '../components/PageHero.astro';
 import { heroPool } from '../data/media';
-
-const sup = spots.filter((s) => s.kind === 'SUP');
-const snorkel = spots.filter((s) => s.kind === 'シュノーケル');
 ---
 
-<Base title="スポット紹介" description="久米島のSUP・シュノーケルスポットをSUNRISEがご紹介。はての浜、イーフビーチ、畳石エリアなど、久米島の海の魅力スポット。">
-  <PageHero eyebrow="Spots" title="スポット紹介" watermark="海" pool={heroPool} image="/images/courses/course-hatenohama.webp" alt="久米島の海" />
+<Base title="スポット紹介" description="久米島の観光スポットをSUNRISEがご紹介。はての浜・奥武島・宇江城城跡・ミーフガー・下阿嘉の滝・シールガチ橋・アーラ浜・シンリ浜。">
+  <PageHero eyebrow="Spots" title="スポット紹介" watermark="景" pool={heroPool} image="/images/courses/course-hatenohama.webp" alt="久米島の海" />
   <section class="pt-16">
     <div class="wrap max-w-3xl">
-      <p class="text-[15px] leading-loose text-inksoft">久米島には、思わず息をのむ海がいくつもあります。<br class="hidden sm:block">SUP・シュノーケルそれぞれのおすすめスポットをご紹介します。</p>
+      <p class="text-[15px] leading-loose text-inksoft">海だけじゃない、久米島。<br class="hidden sm:block">SUNRISEのガイドが自信をもっておすすめする、島の見どころをご紹介します。</p>
     </div>
   </section>
 
-  <section class="py-20">
-    <div class="wrap space-y-16">
-      <div data-reveal>
-        <p class="eyebrow"><span class="h-px w-6 bg-sun"></span>SUP SPOTS</p>
-        <h2 class="mt-3 font-mincho text-2xl font-normal text-ink sm:text-3xl">SUPで漕ぎ出す海</h2>
-        <div class="mt-8 grid gap-6 md:grid-cols-2">
-          {sup.map((s) => (
-            <div class="rounded-3xl bg-white p-7 shadow-soft">
-              <h3 class="font-mincho text-xl font-normal text-ember">{s.name}</h3>
+  <section class="py-14 sm:py-20">
+    <div class="wrap">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {spots.map((s) => (
+          <div class="overflow-hidden rounded-3xl bg-white shadow-soft" data-reveal>
+            <div class="relative h-52 overflow-hidden">
+              <img src={s.image} alt={s.name} class="h-full w-full object-cover" style={s.imagePos ? `object-position:${s.imagePos}` : undefined} loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-mincho text-xl font-normal text-ember">
+                {s.name}
+                {s.kana && <span class="ml-2 text-xs text-inksoft tracking-wide2">（{s.kana}）</span>}
+              </h3>
               <p class="mt-3 text-sm leading-relaxed text-ink/70" set:html={sentences(s.body)}></p>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
 
-      <div data-reveal>
-        <p class="eyebrow"><span class="h-px w-6 bg-sun"></span>SNORKEL SPOTS</p>
-        <h2 class="mt-3 font-mincho text-2xl font-normal text-ink sm:text-3xl">水の中で出会う海</h2>
-        <div class="mt-8 grid gap-6 md:grid-cols-2">
-          {snorkel.map((s) => (
-            <div class="rounded-3xl bg-white p-7 shadow-soft">
-              <h3 class="font-mincho text-xl font-normal text-ember">{s.name}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-ink/70" set:html={sentences(s.body)}></p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <p class="text-xs text-ink/50">
-        ※ 当日のコンディションにより、ご案内するスポットは変わる場合があります。安全とベストな景色を優先してガイドが判断します。
+      <p class="mt-10 text-xs text-ink/50">
+        ※ 掲載写真は一部イメージを含みます。／立ち入りには注意が必要な場所もあります。ツアーではガイドが安全にご案内します。
       </p>
     </div>
   </section>
