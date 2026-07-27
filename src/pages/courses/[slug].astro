@@ -74,7 +74,8 @@ const { kind } = Astro.props as any;
         {/* ② 1枚のヒーロー写真（テキストなし） */}
         {heroImg && (
           <div class="fullbleed relative overflow-hidden">
-            <img src={heroImg} alt={`${course.name}の様子`} class="h-[42vh] w-full object-cover sm:h-[58vh]" style={course.imagePos ? `object-position:${course.imagePos}` : undefined} />
+            <img src={heroImg} alt="" aria-hidden="true" class="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-60" style={course.imagePos ? `object-position:${course.imagePos}` : undefined} />
+            <img src={heroImg} alt={`${course.name}の様子`} class="relative z-10 mx-auto h-[42vh] object-contain sm:h-[56vh]" />
           </div>
         )}
 
