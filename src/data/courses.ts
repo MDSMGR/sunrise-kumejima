@@ -53,7 +53,7 @@ const G = {
 
 export const groups: Group[] = [
   { slug: 'sup', name: 'SUP', tag: 'SUP', tagline: '海の上を、ただ静かに歩く',
-    summary: '体験・サンライズ・サンセットの3プランから選べます。', image: '/images/courses/sup-taiken-5.webp',
+    summary: '体験・サンライズ・サンセットの3プランから選べます。', image: '/images/courses/sup-main.webp',
     members: ['sup-sunset', 'sup-taiken', 'sup-sunrise'] },
   { slug: 'hama', name: '無人島・はての浜', tag: 'ISLAND', tagline: '白い砂浜と、360度の海へ',
     summary: '無人島ツアーやはての浜の渡船・フルコースなど4プラン。', image: '/images/courses/hama-3.webp',
@@ -62,8 +62,8 @@ export const groups: Group[] = [
     summary: '絶景トレッキングと秘境探検の2プラン。', image: G.trek,
     members: ['hikyo', 'trekking-basic'] },
   { slug: 'yugyosen', name: '遊漁船', tag: 'FISHING', tagline: '漁師ガイドと、本気の海釣り',
-    summary: '沖釣り体験と貸切チャーターの2プランからお選びいただけます。', image: '/images/courses/okazuri-1.webp',
-    imagePos: 'center 25%',
+    summary: '沖釣り体験と貸切チャーターの2プランからお選びいただけます。', image: '/images/courses/yugyosen-main.webp',
+    imagePos: 'center 40%',
     members: ['yugyosen-solo', 'yugyosen-charter'] },
 ];
 
