@@ -1,0 +1,14 @@
+name: Refresh blog from note
+
+on:
+  schedule:
+    - cron: '0 23 * * *'
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Netlify build
+        run: curl -sS -X POST -d '{}' "${{ secrets.NETLIFY_BUILD_HOOK }}"
