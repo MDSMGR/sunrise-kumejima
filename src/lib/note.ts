@@ -70,6 +70,23 @@ const feedThumbnail = (item: string): string | null => {
   return m ? m[1] : null;
 };
 
+const formatDate = (d: Date | null) =>
+  d ? `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}` : '';
+
+const EXCERPT_LENGTH = 110;
+
+// noteにアイキャッチが無かった場合に使うサイト内の写真
+const FALLBACK_IMAGES = [
+  '/images/courses/course-sup.webp',
+  '/images/courses/course-hatenohama.webp',
+  '/images/courses/sup-sunset-8.webp',
+  '/images/courses/course-snorkel.webp',
+  '/images/courses/cruising-6.webp',
+  '/images/courses/course-stargazing.webp',
+  '/images/courses/hama-3.webp',
+  '/images/courses/course-trekking.webp',
+];
+
 /** note記事ページから本文HTMLとアイキャッチ画像をまとめて取得する */
 async function fetchArticle(url: string): Promise<{ body: string | null; image: string | null }> {
   try {
