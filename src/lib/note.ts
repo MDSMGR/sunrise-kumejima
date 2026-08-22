@@ -33,8 +33,9 @@ const decode = (s: string) =>
 /** note本文HTMLから危険・不要な要素を落とし、表示に使うタグだけ残す */
 const sanitize = (html: string): string => {
   let out = html
-    .replace(/<(script|style|iframe|object|embed|form|input)[\s\S]*?<\/\1>/gi, '')
-    .replace(/<(script|style|iframe|object|embed|form|input)[^>]*\/?>/gi, '')
+    // noteのUI要素（ダウンロード/コピーボタン等）は中身ごと除去する
+    .replace(/<(script|style|iframe|object|embed|form|input|button|svg|noscript|template)[\s\S]*?<\/\1>/gi, '')
+    .replace(/<(script|style|iframe|object|embed|form|input|button|svg|noscript|template)[^>]*\/?>/gi, '')
     .replace(/\son\w+\s*=\s*"[^"]*"/gi, '')
     .replace(/\son\w+\s*=\s*'[^']*'/gi, '')
     .replace(/\sstyle\s*=\s*"[^"]*"/gi, '')
@@ -49,6 +50,12 @@ const sanitize = (html: string): string => {
   // 外部リンクは新規タブ
   out = out.replace(/<a\s+([^>]*href="[^"]*"[^>]*)>/gi,
     (_m, attrs) => `<a ${attrs} target="_blank" rel="noopener nofollow">`);
+
+  // 取りこぼしたUIラベル・空要素の掃除
+  out = out
+    .replace(/ダウンロード\s*copy/gi, '')
+    .replace(/<(p|li|figcaption)>\s*(?:ダウンロード|copy|コピー)\s*<\/\1>/gi, '')
+    .replace(/<(p|li|figcaption)>\s*<\/\1>/gi, '');
 
   return out.replace(/(\s*<br\s*\/?>\s*){3,}/gi, '<br><br>').trim();
 };
