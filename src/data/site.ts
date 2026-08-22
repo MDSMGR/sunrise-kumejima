@@ -18,6 +18,7 @@ export const nav = [
   { label: 'スポット紹介', href: '/spots' },
   { label: 'スタッフ紹介', href: '/staff' },
   { label: 'Cafe & Bar', href: '/cafe' },
+  { label: 'ブログ', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
   { label: 'お問い合わせ', href: '/contact' },
 ];

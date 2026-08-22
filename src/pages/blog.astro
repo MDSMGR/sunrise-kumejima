@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { heroPool } from '../data/media';
+import { fetchNotePosts, NOTE_URL } from '../lib/note';
+
+const posts = await fetchNotePosts(30);
+---
+
+<Base
+  title="ブログ"
+  description="久米島ツアーSUNRISEの最新情報。ツアーの様子、海のコンディション、島のイベントなど、久米島の"
+>
+  <PageHero eyebrow="Blog" title="ブログ" watermark="記" pool={heroPool} image="/images/courses/course-sup.webp" alt="久米島の海" />
+
+  <section class="pt-16">
+    <div class="wrap max-w-3xl">
+      <p class="text-[15px] leading-loose text-inksoft">
+        ツアーの様子や海のコンディション、島の日常をお届けします。<br class="hidden sm:block">
+        最新の更新はGoogleマップの投稿とあわせてご覧ください。
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20">
+    <div class="wrap max-w-3xl">
+      {posts.length === 0 ? (
+        <div class="rounded-3xl bg-white p-10 text-center shadow-soft">
+          <p class="font-mincho text-lg text-ink">記事を準備しています</p>
+          <p class="mt-3 text-sm leading-loose text-inksoft">
+            最新情報は公式LINEやInstagramでもお届けしています。しばらくお待ちください。
+          </p>
+        </div>
+      ) : (
+        <div class="space-y-10">
+          {posts.map((post, i) => (
+            <article class="overflow-hidden rounded-3xl bg-white shadow-soft">
+              {post.image && (
+                <img
+                  src={post.image}
+                  alt=""
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  class="h-56 w-full object-cover sm:h-72"
+                />
+              )}
+              <div class="p-6 sm:p-8">
+                {post.dateLabel && (
+                  <time class="font-fraunces text-sm italic text-sun" datetime={post.date?.toISOString()}>
+                    {post.dateLabel}
+                  </time>
+                )}
+                <h2 class="mt-2 font-mincho text-xl font-bold leading-snug text-ink sm:text-2xl">
+                  {post.title}
+                </h2>
+
+                {post.hasMore ? (
+                  <details class="group mt-4">
+                    <summary class="list-none">
+                      <p class="text-[15px] leading-loose text-inksoft">
+                        {post.excerpt}<span class="group-open:hidden">…</span>
+                      </p>
+                      <span class="mt-4 inline-flex cursor-pointer items-center gap-1.5 text-sm font-medium text-sun transition-colors hover:text-ink">
+                        <span class="group-open:hidden">続きを読む</span>
+                        <span class="hidden group-open:inline">閉じる</span>
+                        <svg class="h-4 w-4 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                          <path d="M6 8l4 4 4-4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div class="note-body mt-5 border-t border-line pt-5" set:html={post.bodyHtml} />
+                    <p class="mt-6">
+                      <a href={post.link} target="_blank" rel="noopener" class="text-sm text-inksoft underline underline-offset-4 transition-colors hover:text-sun">
+                        noteでこの記事を見る
+                      </a>
+                    </p>
+                  </details>
+                ) : (
+                  <div class="note-body mt-4" set:html={post.bodyHtml} />
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+
+      {posts.length > 0 && (
+        <p class="mt-12 text-center">
+          <a href={NOTE_URL} target="_blank" rel="noopener" class="text-sm text-inksoft underline underline-offset-4 transition-colors hover:text-sun">
+            過去の記事をすべて見る
+          </a>
+        </p>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .note-body { color: #5b4c3c; font-size: 15px; line-height: 2; }
+  .note-body p { margin-block: 1em; }
+  .note-body p:first-child { margin-top: 0; }
+  .note-body p:last-child { margin-bottom: 0; }
+  .note-body h2,
+  .note-body h3,
+  .note-body h4 {
+    margin-top: 2em;
+    margin-bottom: .7em;
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 700;
+    color: #2f2419;
+    line-height: 1.5;
+  }
+  .note-body h2 { font-size: 1.2em; }
+  .note-body h3 { font-size: 1.08em; }
+  .note-body ul,
+  .note-body ol { margin-block: 1em; padding-left: 1.4em; }
+  .note-body ul { list-style: disc; }
+  .note-body ol { list-style: decimal; }
+  .note-body li { margin-block: .4em; }
+  .note-body a { color: #d97a2b; text-decoration: underline; text-underline-offset: 3px; }
+  .note-body img { margin-block: 1.4em; width: 100%; border-radius: 16px; }
+  .note-body figure { margin-block: 1.4em; }
+  .note-body figcaption { margin-top: .6em; font-size: 13px; color: #8a7a68; text-align: center; }
+  .note-body blockquote {
+    margin-block: 1.4em;
+    padding-left: 1em;
+    border-left: 3px solid rgba(217,122,43,.35);
+    color: #6b5c4c;
+  }
+  .note-body strong, .note-body b { font-weight: 700; color: #2f2419; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
