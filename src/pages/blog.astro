@@ -55,10 +55,10 @@ const posts = await fetchNotePosts(30);
                 </h2>
 
                 {post.hasMore ? (
-                  <details class="group mt-4">
+                  <details class="group mt-4 flex flex-col">
                     <summary class="list-none">
-                      <p class="text-[15px] leading-loose text-inksoft">
-                        {post.excerpt}<span class="group-open:hidden">…</span>
+                      <p class="text-[15px] leading-loose text-inksoft group-open:hidden">
+                        {post.excerpt}…
                       </p>
                       <span class="mt-4 inline-flex cursor-pointer items-center gap-1.5 text-sm font-medium text-sun transition-colors hover:text-ink">
                         <span class="group-open:hidden">続きを読む</span>
@@ -68,7 +68,7 @@ const posts = await fetchNotePosts(30);
                         </svg>
                       </span>
                     </summary>
-                    <div class="note-body mt-5 border-t border-line pt-5" set:html={post.bodyHtml} />
+                    <div class="note-body order-first mt-5 border-t border-line pt-5 group-open:mt-0 group-open:border-t-0 group-open:pt-0" set:html={post.bodyHtml} />
                   </details>
                 ) : (
                   <div class="note-body mt-4" set:html={post.bodyHtml} />
