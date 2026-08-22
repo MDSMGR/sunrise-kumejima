@@ -70,46 +70,59 @@ const feedThumbnail = (item: string): string | null => {
   return m ? m[1] : null;
 };
 
-/** note記事ページの og:image を取得（アイキャッチ画像） */
-async function ogImage(url: string): Promise<string | null> {
+/** note記事ページから本文HTMLとアイキャッチ画像をまとめて取得する */
+async function fetchArticle(url: string): Promise<{ body: string | null; image: string | null }> {
   try {
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const timer = setTimeout(() => ctrl.abort(), 12000);
     const res = await fetch(url, {
       signal: ctrl.signal,
       headers: { 'User-Agent': 'SUNRISE-Kumejima-Site/1.0 (+https://kumejima-sunrise.netlify.app)' },
     });
     clearTimeout(timer);
-    if (!res.ok) return null;
+    if (!res.ok) return { body: null, image: null };
     const html = await res.text();
-    const m =
+
+    // --- アイキャッチ ---
+    const og =
       html.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i) ??
       html.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:image"/i);
-    const src = m ? decode(m[1]) : null;
-    // noteのデフォルトプロフィール画像はアイキャッチとして使わない
-    if (!src || /assets\/default\//.test(src)) return null;
-    return src;
+    let image = og ? decode(og[1]) : null;
+    if (image && /assets\/default\//.test(image)) image = null;
+
+    // --- 本文（noteのDOM構造が変わっても拾えるよう複数パターンを試す） ---
+    let body: string | null = null;
+    const patterns = [
+      /<div[^>]+class="[^"]*note-common-styles__textnote-body[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/div>/i,
+      /<div[^>]+class="[^"]*note-common-styles__textnote-body[^"]*"[^>]*>([\s\S]*?)<\/div>/i,
+      /<article[^>]*>([\s\S]*?)<\/article>/i,
+    ];
+    for (const re of patterns) {
+      const m = html.match(re);
+      if (m && stripTags(m[1]).length > 200) { body = m[1]; break; }
+    }
+    // JSON-LD の articleBody（プレーンテキスト）を最後の手段に
+    if (!body) {
+      const ld = html.match(/"articleBody"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+      if (ld) {
+        const text = ld[1].replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+        if (text.trim().length > 200) {
+          body = text.split(/\n+/).map((l) => `<p>${l.trim()}</p>`).filter((l) => l !== '<p></p>').join('');
+        }
+      }
+    }
+
+    return { body, image };
   } catch {
-    return null;
+    return { body: null, image: null };
   }
 }
 
-const formatDate = (d: Date | null) =>
-  d ? `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}` : '';
-
-const EXCERPT_LENGTH = 110;
-
-// noteにアイキャッチが無かった場合に使うサイト内の写真
-const FALLBACK_IMAGES = [
-  '/images/courses/course-sup.webp',
-  '/images/courses/course-hatenohama.webp',
-  '/images/courses/sup-sunset-8.webp',
-  '/images/courses/course-snorkel.webp',
-  '/images/courses/cruising-6.webp',
-  '/images/courses/course-stargazing.webp',
-  '/images/courses/hama-3.webp',
-  '/images/courses/course-trekking.webp',
-];
+/** note本体へのリンクを外し、テキストだけ残す（サイト内で完結させるため） */
+const removeLinks = (html: string): string =>
+  html
+    .replace(/<a[^>]*>\s*(?:続きをみる|続きを読む|もっとみる)\s*<\/a>/gi, '')
+    .replace(/<a[^>]*>([\s\S]*?)<\/a>/gi, '$1');
 
 export async function fetchNotePosts(limit = 30): Promise<NotePost[]> {
   let xml = '';
@@ -134,7 +147,7 @@ export async function fetchNotePosts(limit = 30): Promise<NotePost[]> {
     const link = pick(item, 'link');
     const raw = pick(item, 'content:encoded') || pick(item, 'description');
     const html = /&lt;/.test(raw) && !/</.test(raw) ? decode(raw) : raw;
-    const bodyHtml = sanitize(html);
+    const bodyHtml = removeLinks(sanitize(html));
     const text = stripTags(bodyHtml);
     const pub = pick(item, 'pubDate');
     const date = pub ? new Date(pub) : null;
@@ -155,12 +168,25 @@ export async function fetchNotePosts(limit = 30): Promise<NotePost[]> {
   posts.sort((a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0));
   const list = posts.slice(0, limit);
 
-  // 画像が拾えなかった記事は、note記事ページの og:image を見に行く
-  const need = list.filter((p) => !p.image && p.link);
-  for (let i = 0; i < need.length; i += 5) {
-    const chunk = need.slice(i, i + 5);
-    const found = await Promise.all(chunk.map((p) => ogImage(p.link)));
-    chunk.forEach((p, j) => { p.image = found[j]; });
+  // RSSは抜粋しか配信しないため、記事ページから全文とアイキャッチを取得する
+  const need = list.filter((p) => p.link);
+  for (let i = 0; i < need.length; i += 4) {
+    const chunk = need.slice(i, i + 4);
+    const results = await Promise.all(chunk.map((p) => fetchArticle(p.link)));
+    chunk.forEach((p, j) => {
+      const { body, image } = results[j];
+      if (body) {
+        const full = removeLinks(sanitize(body));
+        const text = stripTags(full);
+        if (text.length > stripTags(p.bodyHtml).length) {
+          p.bodyHtml = full;
+          p.excerpt = text.slice(0, EXCERPT_LENGTH);
+          p.hasMore = text.length > EXCERPT_LENGTH;
+          if (!p.image) p.image = firstImage(full);
+        }
+      }
+      if (!p.image && image) p.image = image;
+    });
   }
 
   // それでも無ければサイト内の写真をあてる（画像なしのカードを作らない）

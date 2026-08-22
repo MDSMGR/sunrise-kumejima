@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import { heroPool } from '../data/media';
-import { fetchNotePosts, NOTE_URL } from '../lib/note';
+import { fetchNotePosts } from '../lib/note';
 
 const posts = await fetchNotePosts(30);
 ---
@@ -69,11 +69,6 @@ const posts = await fetchNotePosts(30);
                       </span>
                     </summary>
                     <div class="note-body mt-5 border-t border-line pt-5" set:html={post.bodyHtml} />
-                    <p class="mt-6">
-                      <a href={post.link} target="_blank" rel="noopener" class="text-sm text-inksoft underline underline-offset-4 transition-colors hover:text-sun">
-                        noteでこの記事を見る
-                      </a>
-                    </p>
                   </details>
                 ) : (
                   <div class="note-body mt-4" set:html={post.bodyHtml} />
@@ -84,13 +79,6 @@ const posts = await fetchNotePosts(30);
         </div>
       )}
 
-      {posts.length > 0 && (
-        <p class="mt-12 text-center">
-          <a href={NOTE_URL} target="_blank" rel="noopener" class="text-sm text-inksoft underline underline-offset-4 transition-colors hover:text-sun">
-            過去の記事をすべて見る
-          </a>
-        </p>
-      )}
     </div>
   </section>
 </Base>
