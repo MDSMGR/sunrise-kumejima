@@ -7,20 +7,20 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   <div class="wrap flex items-center justify-between py-3.5">
     <a href="/" class="group flex items-center gap-2.5" aria-label={`${site.name} ホーム`}>
       <img src="/logo-sunrise-t.png" alt="久米島ツアーSUNRISE" class="h-10 w-auto" width="479" height="452" />
-      <span class="font-mincho text-[17px] tracking-wide2 text-ink">
+      <span class="whitespace-nowrap font-mincho text-[15px] tracking-wide2 text-ink xl:text-[17px]">
         久米島ツアー<span class="text-sun">SUNRISE</span>
       </span>
     </a>
 
-    <nav class="hidden items-center gap-6 lg:flex" aria-label="メインメニュー">
+    <nav class="hidden items-center gap-4 lg:flex xl:gap-6" aria-label="メインメニュー">
       {nav.map((item) => (
         <a href={item.href}
-           class:list={['text-[13.5px] font-medium tracking-wide transition-colors hover:text-sun', isActive(item.href) ? 'text-sun' : 'text-ink/80']}
+           class:list={['whitespace-nowrap text-[13px] font-medium tracking-wide transition-colors hover:text-sun xl:text-[13.5px]', isActive(item.href) ? 'text-sun' : 'text-ink/80']}
            aria-current={isActive(item.href) ? 'page' : undefined}>
           {item.label}
         </a>
       ))}
-      <a href={site.line} class="btn-line !px-5 !py-2.5 text-xs" target="_blank" rel="noopener">LINEで予約</a>
+      <a href={site.line} class="btn-line whitespace-nowrap !px-4 !py-2.5 text-xs xl:!px-5" target="_blank" rel="noopener">LINEで予約</a>
     </nav>
 
     <button id="nav-toggle" class="-mr-1 grid h-11 w-11 place-items-center rounded-lg text-ink transition-colors hover:bg-ink/5 lg:hidden"

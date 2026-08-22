@@ -61,10 +61,55 @@ const firstImage = (html: string): string | null => {
   return m ? m[1] : null;
 };
 
+/** RSSのitem内にサムネイル情報があれば拾う（media:thumbnail / media:content / enclosure） */
+const feedThumbnail = (item: string): string | null => {
+  const m =
+    item.match(/<media:thumbnail[^>]+url="([^"]+)"/i) ??
+    item.match(/<media:content[^>]+url="([^"]+)"/i) ??
+    item.match(/<enclosure[^>]+url="([^"]+)"[^>]*type="image/i);
+  return m ? m[1] : null;
+};
+
+/** note記事ページの og:image を取得（アイキャッチ画像） */
+async function ogImage(url: string): Promise<string | null> {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const res = await fetch(url, {
+      signal: ctrl.signal,
+      headers: { 'User-Agent': 'SUNRISE-Kumejima-Site/1.0 (+https://kumejima-sunrise.netlify.app)' },
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    const html = await res.text();
+    const m =
+      html.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i) ??
+      html.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:image"/i);
+    const src = m ? decode(m[1]) : null;
+    // noteのデフォルトプロフィール画像はアイキャッチとして使わない
+    if (!src || /assets\/default\//.test(src)) return null;
+    return src;
+  } catch {
+    return null;
+  }
+}
+
 const formatDate = (d: Date | null) =>
   d ? `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}` : '';
 
 const EXCERPT_LENGTH = 110;
+
+// noteにアイキャッチが無かった場合に使うサイト内の写真
+const FALLBACK_IMAGES = [
+  '/images/courses/course-sup.webp',
+  '/images/courses/course-hatenohama.webp',
+  '/images/courses/sup-sunset-8.webp',
+  '/images/courses/course-snorkel.webp',
+  '/images/courses/cruising-6.webp',
+  '/images/courses/course-stargazing.webp',
+  '/images/courses/hama-3.webp',
+  '/images/courses/course-trekking.webp',
+];
 
 export async function fetchNotePosts(limit = 30): Promise<NotePost[]> {
   let xml = '';
@@ -101,12 +146,27 @@ export async function fetchNotePosts(limit = 30): Promise<NotePost[]> {
       dateLabel: formatDate(date && !isNaN(date.getTime()) ? date : null),
       bodyHtml,
       excerpt: text.slice(0, EXCERPT_LENGTH),
-      image: firstImage(bodyHtml),
+      image: feedThumbnail(item) ?? firstImage(bodyHtml),
       hasMore: text.length > EXCERPT_LENGTH,
     };
   });
 
   // 新しい順（RSSは基本新着順だが念のため明示的に並べ替え）
   posts.sort((a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0));
-  return posts.slice(0, limit);
+  const list = posts.slice(0, limit);
+
+  // 画像が拾えなかった記事は、note記事ページの og:image を見に行く
+  const need = list.filter((p) => !p.image && p.link);
+  for (let i = 0; i < need.length; i += 5) {
+    const chunk = need.slice(i, i + 5);
+    const found = await Promise.all(chunk.map((p) => ogImage(p.link)));
+    chunk.forEach((p, j) => { p.image = found[j]; });
+  }
+
+  // それでも無ければサイト内の写真をあてる（画像なしのカードを作らない）
+  list.forEach((p, i) => {
+    if (!p.image) p.image = FALLBACK_IMAGES[i % FALLBACK_IMAGES.length];
+  });
+
+  return list;
 }
