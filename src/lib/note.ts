@@ -101,7 +101,7 @@ async function fetchArticle(url: string): Promise<{ body: string | null; image: 
     const timer = setTimeout(() => ctrl.abort(), 12000);
     const res = await fetch(url, {
       signal: ctrl.signal,
-      headers: { 'User-Agent': 'SUNRISE-Kumejima-Site/1.0 (+https://kumejima-sunrise.netlify.app)' },
+      headers: { 'User-Agent': 'SUNRISE-Kumejima-Site/1.0 (+https://www.kumejimasup-sunrise.com)' },
     });
     clearTimeout(timer);
     if (!res.ok) return { body: null, image: null };
@@ -152,7 +152,7 @@ export async function fetchNotePosts(limit = 30): Promise<NotePost[]> {
   let xml = '';
   try {
     const res = await fetch(NOTE_RSS, {
-      headers: { 'User-Agent': 'SUNRISE-Kumejima-Site/1.0 (+https://kumejima-sunrise.netlify.app)' },
+      headers: { 'User-Agent': 'SUNRISE-Kumejima-Site/1.0 (+https://www.kumejimasup-sunrise.com)' },
     });
     if (!res.ok) {
       console.warn(`[note] RSS取得に失敗しました (HTTP ${res.status})。ブログは空で出力します。`);

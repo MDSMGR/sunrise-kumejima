@@ -4,6 +4,6 @@ import sitemap from '@astrojs/sitemap';
 
 // ドメイン確定後に site を本番URLへ差し替えてください。
 export default defineConfig({
-  site: 'https://kumejima-sunrise.netlify.app',
+  site: 'https://www.kumejimasup-sunrise.com',
   integrations: [tailwind(), sitemap()],
 });
